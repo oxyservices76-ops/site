@@ -1,0 +1,22 @@
+[build]
+  publish = "."
+  command = "echo '🚀 NOXA Toolkit with Service Worker'"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+    Service-Worker-Allowed = "/"
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/json"
+
+# Service Worker requires HTTPS
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true
