@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Other meta tags and title -->
+    <meta name="description" content="Doxed Kids The #2 Dox Info website">
+    <!-- Rest of your head section -->
+    <title>Doxed Kids</title>
+    <link rel="icon" href="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468">
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Add your CSS styles here to customize the appearance of your website */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        nav {
+            background-color: #444;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hide the content */
+            text-align: center;
+        }
+        .box {
+            display: inline-block; /* Display boxes inline */
+            width: calc(25% - 20px); /* Set width for each box (adjust as needed) */
+            margin: 20px 10px; /* Add margin to separate boxes */
+            vertical-align: top; /* Align boxes vertically at the top */
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .box img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Hide the audio player visually */
+        audio {
+            height: 0;
+            visibility: hidden;
+            display: none;
+        }
+
+        /* Style the play button */
+        .play-button {
+            text-align: center;
+            padding: 40px; /* Increase padding to make it bigger */
+        }
+
+        .play-button button {
+            font-size: 24px; /* Increase font size */
+        }
+
+        /* Style for the "Add Dox" button */
+        .add-dox-button {
+            text-align: center;
+            margin: 20px 0;
+            display: none; /* Initially hide the "Add Dox" button */
+        }
+
+        .add-dox-button a {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007bff; /* Blue color for the button */
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+
+        .add-dox-button a:hover {
+            background-color: #0056b3; /* Darker blue color on hover */
+        }
+
+        /* Style for the search bar */
+        .search-bar {
+            text-align: center;
+            margin: 20px 0;
+            display: none; /* Initially hide the search bar */
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Style for comments */
+        .comment-section {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .comment-section h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .comment-section p {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .comment-section input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-section button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment {
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Style for timestamps and last edited times */
+        .timestamp {
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        .last-edited {
+            font-style: italic;
+            font-size: 12px;
+            color: #777; /* Light gray color for last edited time */
+        }
+
+        /* Style for the signup form */
+        #signupForm {
+            display: none; /* Initially hide the signup form */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #signupForm input[type="text"],
+        #signupForm input[type="password"],
+        #signupForm button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with ASCII art -->
+    <header>
+        <pre>
+██████╗  ██████╗ ██╗  ██╗███████╗██████╗     ██╗  ██╗██╗██████╗ ███████╗
+██╔══██╗██╔═══██╗╚██╗██╔╝██╔════╝██╔══██╗    ██║ ██╔╝██║██╔══██╗██╔════╝
+██║  ██║██║   ██║ ╚███╔╝ █████╗  ██║  ██║    █████╔╝ ██║██║  ██║███████╗
+██║  ██║██║   ██║ ██╔██╗ ██╔══╝  ██║  ██║    ██╔═██╗ ██║██║  ██║╚════██║
+██████╔╝╚██████╔╝██╔╝ ██╗███████╗██████╔╝    ██║  ██╗██║██████╔╝███████║
+╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝     ╚═╝  ╚═╝╚═╝╚═════╝ ╚══════╝
+        </pre>
+    </header>
+
+    <!-- Play button to start audio playback -->
+    <div class="play-button">
+        <button id="startAudio" onclick="showContent()">View Website</button> <!-- Change button text to "View Website" -->
+    </div>
+
+    <!-- Audio player (hidden by default) -->
+    <audio id="backgroundAudio" loop>
+        <source src="https://github.com/DamageCoding/YOURONDOXBIN/raw/main/youre-on-doxbin.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- "Add Dox" button -->
+    <div class="add-dox-button">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScnzvFPm_Erp8NS8QuDAiQAMD2V48oNxe8ZsJjwZZGghz6UZA/viewform?usp=sf_link" target="_blank">Add Dox</a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button onclick="search()">Search</button>
+    </div>
+
+    <!-- Signup form -->
+    <div id="signupForm">
+        <h2>Sign Up</h2>
+        <form onsubmit="return registerUser()">
+            <input type="text" id="signupUsername" placeholder="Username" required>
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Container for content boxes -->
+    <div class="container" id="websiteContent"> <!-- Display when the user clicks "View Website" -->
+        <!-- Content boxes -->
+        <!-- Box 1 -->
+        <div class="box" data-id="1">
+            <h2><a href="https://doxedbently.isthatyoungsuke.repl.co/">Bently</a></h2>
+            <p>Keywords: Bently, Profile, Information</p>
+            <p class="timestamp">Added on: September 9, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="Bently's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName1" placeholder="Your Name">
+                <textarea id="commentText1" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(1)">Submit Comment</button>
+                <div id="comments1"></div>
+            </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="box" data-id="2">
+            <h2><a href="https://doxedlucas.isthatyoungsuke.repl.co/">Lucas</a></h2>
+            <p>Keywords: Lucas, Profile, Details</p>
+            <p class="timestamp">Added on: September 9, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="Lucas's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName2" placeholder="Your Name">
+                <textarea id="commentText2" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(2)">Submit Comment</button>
+                <div id="comments2"></div>
+            </div>
+        </div>
+
+        <!-- Box 3 - Alexey Polshinsky -->
+        <div class="box" data-id="3">
+            <h2><a href="https://doxedalexey-polshinsky.isthatyoungsuke.repl.co/">Alexey Polshinsky</a></h2>
+            <p>Keywords: Alexey Polshinsky, Dumb russia man</p>
+            <p class="timestamp">Added on: September 10, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="Alexey Polshinsky's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName3" placeholder="Your Name">
+                <textarea id="commentText3" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(3)">Submit Comment</button>
+                <div id="comments3"></div>
+            </div>
+        </div>
+
+        <!-- Box 4 - Matei -->
+        <div class="box" data-id="4">
+            <h2><a href="https://doxedmateis.isthatyoungsuke.repl.co/">Matei</a></h2>
+            <p>Keywords: matei, Will not be missed</p>
+            <p class="timestamp">Added on: September 10, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="Doxed Mate's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName4" placeholder="Your Name">
+                <textarea id="commentText4" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(4)">Submit Comment</button>
+                <div id="comments4"></div>
+            </div>
+        </div>
+
+        <!-- Box 5 - Doxedtxt8322 -->
+        <div class="box" data-id="5">
+            <h2><a href="https://doxedtxt8322.isthatyoungsuke.repl.co/">Doxedtxt8322</a></h2>
+            <p>Keywords: Doxedtxt8322</p>
+            <p class="timestamp">Added on: September 10, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="Doxedtxt8322's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName5" placeholder="Your Name">
+                <textarea id="commentText5" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(5)">Submit Comment</button>
+                <div id="comments5"></div>
+            </div>
+        </div>
+
+        <!-- Box 6 - TheLostPiece -->
+        <div class="box" data-id="6">
+            <h2><a href="https://doxedthelostpiece.isthatyoungsuke.repl.co/">TheLostPiece</a></h2>
+            <p>Keywords: TheLostPiece, Lost, Found</p>
+            <p class="timestamp">Added on: September 10, 2023</p>
+            <p class="last-edited">Last Edited: N/A</p>
+            <img src="https://media.discordapp.net/attachments/1153851955907678308/1157922434930966608/Adobe_Express_20230930_2310110_1.png?ex=651a5ecd&is=65190d4d&hm=e04f9a4759c2f8666da1761bd112fab61fcd3db17da9d055e0b72bf853c7bf48&=&width=468&height=468" alt="TheLostPiece's Image">
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <p>Your name will be kept unless the database gets reset.</p>
+                <input type="text" id="commentName6" placeholder="Your Name">
+                <textarea id="commentText6" placeholder="Leave a comment..." rows="4" cols="50"></textarea>
+                <button onclick="addComment(6)">Submit Comment</button>
+                <div id="comments6"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the website content and play audio
+        function showContent() {
+            const websiteContent = document.getElementById("websiteContent");
+            const audio = document.getElementById("backgroundAudio");
+            const startButton = document.getElementById("startAudio");
+            const addDoxButton = document.querySelector(".add-dox-button");
+            const searchBar = document.querySelector(".search-bar");
+            const signupForm = document.getElementById("signupForm");
+
+            // Check if the user is logged in
+            if (localStorage.getItem("loggedIn") === "true") {
+                websiteContent.style.display = "block";
+                audio.play();
+                startButton.style.display = "none";
+                addDoxButton.style.display = "block";
+                searchBar.style.display = "block";
+                signupForm.style.display = "none";
+            } else {
+                alert("Please sign up or log in to view the website.");
+                signupForm.style.display = "block";
+            }
+        }
+
+        // Function to search for content
+        function search() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const boxes = document.querySelectorAll(".box");
+
+            boxes.forEach((box) => {
+                const keywords = box.querySelector("p").textContent.toLowerCase();
+                if (keywords.includes(searchInput)) {
+                    box.style.display = "inline-block";
+                } else {
+                    box.style.display = "none";
+                }
+            });
+        }
+
+        // Function to add comments
+        function addComment(boxId) {
+            const commentNameInput = document.getElementById(`commentName${boxId}`);
+            const commentTextInput = document.getElementById(`commentText${boxId}`);
+            const commentsDiv = document.getElementById(`comments${boxId}`);
+
+            const commentName = commentNameInput.value;
+            const commentText = commentTextInput.value;
+
+            if (commentName && commentText) {
+                const comment = document.createElement("div");
+                comment.classList.add("comment");
+                comment.innerHTML = `<p><strong>${commentName}:</strong> ${commentText}</p>`;
+                commentsDiv.appendChild(comment);
+
+                // Clear input fields after adding a comment
+                commentNameInput.value = "";
+                commentTextInput.value = "";
+            }
+        }
+
+        // Function to register a user
+        function registerUser() {
+            const username = document.getElementById("signupUsername").value;
+            const password = document.getElementById("signupPassword").value;
+
+            // Check if username and password are provided
+            if (username && password) {
+                // Save the registration status to localStorage
+                localStorage.setItem("loggedIn", "true");
+                alert("You are now registered and logged in!");
+                showContent();
+                return false; // Prevent form submission
+            } else {
+                alert("Please provide both a username and a password.");
+                return false; // Prevent form submission
+            }
+        }
+    </script>
+</body>
+</html>

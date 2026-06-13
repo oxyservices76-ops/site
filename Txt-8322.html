@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Txts Information</title>
+    <style>
+        /* Rainbow Text Effect */
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            14% { color: #ff8000; }
+            28% { color: #ffff00; }
+            42% { color: #80ff00; }
+            57% { color: #00ff00; }
+            71% { color: #00ff80; }
+            85% { color: #00ffff; }
+            100% { color: #0080ff; }
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            background-color: #333333; /* Dark gray background color */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: rainbow 8s linear infinite;
+            height: 100%; /* Ensure the background covers the entire viewport height */
+        }
+
+        /* Styling for horizontal line */
+        hr {
+            border: none;
+            height: 2px;
+            background: #fff;
+            margin: 20px 0;
+            width: 80%;
+            opacity: 0.6;
+        }
+
+        /* Styling for headings */
+        h1, h2 {
+            color: #fff;
+        }
+
+        /* Styling for additional information */
+        .info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        /* Styling for your text art */
+        .text-art {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        /* Styling for the image container */
+        .image-container {
+            max-width: 50%;
+            margin: 20px;
+            text-align: center;
+            overflow: hidden; /* Hide overflow for the hover effect */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        /* Styling for the image wrapper */
+        .image-wrapper {
+            position: relative;
+        }
+
+        /* Styling for the image */
+        .face-image {
+            max-width: 100%;
+            max-height: 600px;
+            transition: transform 0.2s;
+        }
+
+        /* Hover effect for the image container */
+        .image-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hover effect for the image itself */
+        .image-container:hover .face-image {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="text-art">
+        <!-- Your text art here -->
+        <!-- Add your text art here -->
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⠟⠛⠛⠛⠛⠛⣛⣻⣿⣿⣿⣿⣿⣟⣛⣛⣛⠛⠒⠲⠶⠦⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠁⠀⠀⢀⣤⠶⣛⣩⣥⠤⠤⠤⠤⢤⣤⣤⣭⣭⣉⣉⣛⣛⣻⣭⣥⠬⡍⠛⢶⣄⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⠃⠀⠀⣠⡶⢋⡵⢛⡩⠵⠒⠒⠒⠒⠢⡀⠀⠀⠀⠀⠀⢀⣠⠤⠤⠤⢤⣄⠀⠀⠀⠉⠻⣆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⣿⠃⠀⠀⠘⢁⡴⢋⣴⢿⠒⠈⠉⣏⠉⠐⠒⡾⣄⠀⠀⠀⠀⠀⡠⠀⠀⢀⣀⣈⣙⣆⡀⠀⠀⢹⡆⠀⠀⠀⠀⠀  
+⠀⠀⠀⠀⠀⠀⣠⣾⠃⠀⠀⠀⠀⠀⢀⠟⣁⠀⠁⢀⣤⣦⣤⡀⠘⠀⢈⣷⡄⠀⠀⠀⣇⠖⠉⠙⠅⠀⠀⠉⠉⠑⢦⡈⣷⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⢠⣾⢿⣧⠤⠤⠤⠄⠀⠖⣿⠀⠃⠀⠀⣿⣿⣿⣿⡗⠀⠐⠁⢸⡇⠀⣀⣰⠉⠠⠀⠀⣰⣶⣷⣶⠀⠀⠀⢱⡈⢻⣦⠀⠀⠀              
+⠀⠀⠀⣠⡿⣱⠋⢀⣴⠶⠚⠻⢶⣤⡘⢧⣄⠆⠂⠀⡉⠉⣉⣀⣀⠉⣠⡟⠁⠀⠉⢻⣆⠀⠀⠀⠘⠛⠟⠛⠀⠀⢈⡿⢍⢢⢹⡇⠀⠀
+⠀⠀⢠⣿⠁⡇⢠⣿⠁⠀⢰⣦⡀⠉⠉⠀⠈⠙⠲⠾⠾⠶⠶⠶⠚⠋⠉⠀⠀⠀⠀⢸⣯⡑⠢⢤⣀⣂⣀⣨⠤⠒⠛⠃⠘⡆⡇⡧⠀⠀      THANK YOU, ¬_¬
+⠀⠀⢸⣿⠀⡇⢸⡇⢠⣴⣾⠋⠛⢷⣦⣀⠀⠀⠀⠠⠤⠤⠴⢠⠶⠒⠀⠀⠀⠀⠀⠀⠉⢿⣦⡀⠀⠀⠀⠀⢸⣷⠀⠀⡼⢡⢣⡇⠀⠀
+⠀⠀⠀⢿⡇⣧⠘⠿⠀⠀⠸⣧⡀⠀⠈⢻⡿⢶⣦⣄⡀⠀⠀⠸⣆⠐⠟⠻⠷⠀⠀⠀⢀⣾⠛⠃⠑⠤⠀⢀⣼⣿⡇⢀⠤⢂⣾⠃⠀⠀
+⠀⠀⠀⠈⢻⣌⠑⠦⠀⠀⠀⢿⣿⣷⣤⣸⣷⡀⠀⠈⠙⠻⢿⣶⣤⣄⣀⡀⠀⠀⠙⠿⠟⠁⠀⠀⢀⣠⡴⣿⠉⣿⣿⠀⠀⣼⠁⠀⠀
+⠀⠀⠀⠀⠀⠙⣷⡀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣶⣤⣀⣀⣼⠁⠀⠈⠉⠙⣿⠛⠛⠻⢿⠿⠛⠛⢻⡇⠀⢸⡀⣹⣿⠀⠀⡏⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⢿⡀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣤⣄⣀⣿⣄⣀⣀⣸⣄⣀⣠⣴⣿⣶⣿⣿⣿⣿⣿⡇⠀⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⢷⡄⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣷⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣦⠀⠘⣿⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣄⠘⢷⡀⠘⡟⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣷⣄⠈⠻⣦⡀⠀⠀⡼⠀⠀⠈⠙⠻⣿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣷⣄⠈⠛⠷⣼⣇⡀⠀⠀⠀⠀⣿⠀⠀⠀⢸⡇⠀⠀⡿⠀⢸⠇⣘⣧⠟⠀⢀⡿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢷⣄⡀⠀⠙⠻⠷⠶⣶⣾⣿⣤⣀⣠⣿⣄⣀⣴⠷⠶⠿⠿⠿⠿⠿⠿⠃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⣶⣤⣤⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣤⡤⠞⠁⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠋⠉
+    </div>
+    <hr>
+    <h1 style="font-size: 24px;">Txt8322</h1>
+    <hr>
+    <div class="info">
+        <h2>Some Dumb Kid Number 6</h2>
+        <p>So I told him to check out my website and then I asked some dumb shit to hold up so I can find his info, lmao.</p>
+        <p>His username is txt8322. I will try to hack him soon.</p>
+        <p>Here is the DMS:</p>
+        <ul>
+            <li><a href="https://cdn.discordapp.com/attachments/1146570925475631224/1150516406635483146/Screenshot_2023-09-10_143836.png">Screenshot 1</a></li>
+            <li><a href="https://cdn.discordapp.com/attachments/1146570925475631224/1150516406912294962/Screenshot_2023-09-10_144016.png">Screenshot 2</a></li>
+            <li><a href="https://cdn.discordapp.com/attachments/1146570925475631224/1150516888850399383/image.png">Image</a></li>
+        </ul>
+    </div>
+    <hr>
+    <h1 style="font-size: 24px;">Location Information</h1>
+    <hr>
+    <div class="info">
+        <p><strong>Time:</strong> 2023-09-10 19:36:34 UTC</p>
+        <p><strong>IP Address:</strong> 172.59.25.153</p>
+        <p><strong>Browser:</strong> Samsung Browser (22.0)</p>
+        <p><strong>Operating System:</strong> Android 13</p>
+        <p><strong>User Agent:</strong> Mozilla/5.0 (Linux; Android 13; SAMSUNG SM-A146U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/22.0 Chrome/111.0.5563.116 Mobile Safari/537.36</p>
+        <p><strong>ISP:</strong> T-MOBILE-AS21928</p>
+        <p><strong>IP Info (for nerds):</strong></p>
+        <ul>
+            <li><strong>Decimal:</strong> 2889554329</li>
+            <li><strong>Hostname:</strong> 172.59.25.153</li>
+            <li><strong>ASN:</strong> 21928</li>
+            <li><strong>ISP:</strong> T-Mobile USA Inc.</li>
+            <li><strong>Services:</strong> None detected</li>
+            <li><strong>Assignment:</strong> Likely Static IP</li>
+            <li><strong>Country:</strong> United States</li>
+            <li><strong>State/Region:</strong> Ohio</li>
+            <li><strong>City:</strong> Cleveland</li>
+            <li><strong>Latitude:</strong> 41.4992 (41° 29′ 57.21″ N)</li>
+            <li><strong>Longitude:</strong> -81.6959 (81° 41′ 45.07″ W)</li>
+        </ul>
+    </div>
+    <hr>
