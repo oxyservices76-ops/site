@@ -52,7 +52,312 @@
         window.onload = async () => {
             await logIP();
             
-            const originalHTML = `<<< PASTE YOUR FULL ORIGINAL HTML HERE (starting from <!DOCTYPE html> to the end </html>) >>>`;
+            const originalHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANTIGRAVITY | Discord Multi-Tool</title>
+    <meta name="description" content="Antigravity Discord Multi-Tool Suite">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-section">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <h1>ANTIGRAVITY</h1>
+                    <span class="subtitle">Discord Multi-Tool Suite</span>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-dot" id="statusDot"></div>
+                <span class="status-text" id="statusText">Idle</span>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="webhook" id="tabWebhook">
+                <span class="tab-icon">🔗</span>
+                <span class="tab-label">Webhook Spammer</span>
+            </button>
+            <button class="tab-btn" data-tab="nuke" id="tabNuke">
+                <span class="tab-icon">💀</span>
+                <span class="tab-label">Server Nuke</span>
+            </button>
+            <button class="tab-btn" data-tab="logs" id="tabLogs">
+                <span class="tab-icon">📋</span>
+                <span class="tab-label">Live Logs</span>
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+
+            <!-- WEBHOOK SPAMMER TAB -->
+            <section class="tab-panel active" id="panelWebhook">
+                <div class="panel-grid">
+                    <!-- Configuration Card -->
+                    <div class="card card-config">
+                        <div class="card-header">
+                            <h2>⚙️ Webhook Configuration</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <label for="webhookUrl">Webhook URL</label>
+                                <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/..." autocomplete="off">
+                            </div>
+                            <div class="input-group">
+                                <label for="webhookName">Webhook Display Name</label>
+                                <input type="text" id="webhookName" placeholder="Antigravity Bot" value="Antigravity">
+                            </div>
+                            <div class="input-group">
+                                <label for="webhookAvatar">Avatar URL <span class="optional">(optional)</span></label>
+                                <input type="text" id="webhookAvatar" placeholder="https://i.imgur.com/...">
+                            </div>
+                            <div class="input-group">
+                                <label for="webhookMessage">Message Content</label>
+                                <textarea id="webhookMessage" rows="4" placeholder="Enter your message here..."></textarea>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group half">
+                                    <label for="webhookCount">Send Count</label>
+                                    <input type="number" id="webhookCount" min="1" max="100000" value="10">
+                                </div>
+                                <div class="input-group half">
+                                    <label for="webhookDelay">Delay (ms)</label>
+                                    <input type="number" id="webhookDelay" min="0" max="60000" value="500">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="webhookTTS">
+                                    <span class="checkmark"></span>
+                                    Enable Text-to-Speech (TTS)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Embed Builder Card -->
+                    <div class="card card-embed">
+                        <div class="card-header">
+                            <h2>🎨 Embed Builder <span class="optional">(optional)</span></h2>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="embedToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="card-body embed-body" id="embedSection">
+                            <div class="input-group">
+                                <label for="embedTitle">Embed Title</label>
+                                <input type="text" id="embedTitle" placeholder="Embed title">
+                            </div>
+                            <div class="input-group">
+                                <label for="embedDesc">Embed Description</label>
+                                <textarea id="embedDesc" rows="3" placeholder="Embed description"></textarea>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group half">
+                                    <label for="embedColor">Embed Color</label>
+                                    <div class="color-input-wrap">
+                                        <input type="color" id="embedColor" value="#7c3aed">
+                                        <span class="color-hex" id="colorHex">#7c3aed</span>
+                                    </div>
+                                </div>
+                                <div class="input-group half">
+                                    <label for="embedFooter">Footer Text</label>
+                                    <input type="text" id="embedFooter" placeholder="Footer">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="embedImage">Image URL <span class="optional">(optional)</span></label>
+                                <input type="text" id="embedImage" placeholder="https://...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls Card -->
+                    <div class="card card-controls">
+                        <div class="card-header">
+                            <h2>🚀 Launch Controls</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-section" id="webhookProgress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-stats">
+                                    <span id="progressSent">0</span> / <span id="progressTotal">0</span> sent
+                                    <span class="progress-rate" id="progressRate"></span>
+                                </div>
+                            </div>
+                            <div class="btn-row">
+                                <button class="btn btn-primary btn-glow" id="btnStartSpam">
+                                    <span class="btn-icon">⚡</span> Start Spamming
+                                </button>
+                                <button class="btn btn-danger" id="btnStopSpam" disabled>
+                                    <span class="btn-icon">⛔</span> Abort
+                                </button>
+                            </div>
+                            <button class="btn btn-secondary btn-full" id="btnTestWebhook">
+                                <span class="btn-icon">🧪</span> Send Test Message
+                            </button>
+                            <button class="btn btn-outline btn-full" id="btnDeleteWebhook">
+                                <span class="btn-icon">🗑️</span> Delete Webhook
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SERVER NUKE TAB -->
+            <section class="tab-panel" id="panelNuke">
+                <div class="panel-grid">
+                    <!-- Bot Token Card -->
+                    <div class="card card-token">
+                        <div class="card-header">
+                            <h2>🤖 Bot Authentication</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <label for="botToken">Bot Token</label>
+                                <div class="token-input-wrap">
+                                    <input type="password" id="botToken" placeholder="Paste your bot token here..." autocomplete="off">
+                                    <button class="btn-icon-only" id="btnToggleToken" title="Show/Hide">👁️</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-full" id="btnConnectBot">
+                                <span class="btn-icon">🔌</span> Connect & Load Servers
+                            </button>
+                            <div class="bot-info" id="botInfo" style="display:none;">
+                                <div class="bot-avatar" id="botAvatar"></div>
+                                <div class="bot-details">
+                                    <span class="bot-name" id="botName"></span>
+                                    <span class="bot-id" id="botId"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Server Select Card -->
+                    <div class="card card-server">
+                        <div class="card-header">
+                            <h2>🌐 Target Server</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <label for="serverSelect">Select Server</label>
+                                <select id="serverSelect" disabled>
+                                    <option value="">-- Connect bot first --</option>
+                                </select>
+                            </div>
+                            <div class="server-info" id="serverInfo" style="display:none;">
+                                <div class="info-row"><span>Server ID:</span><span id="srvId">—</span></div>
+                                <div class="info-row"><span>Members:</span><span id="srvMembers">—</span></div>
+                                <div class="info-row"><span>Channels:</span><span id="srvChannels">—</span></div>
+                                <div class="info-row"><span>Roles:</span><span id="srvRoles">—</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nuke Actions Card -->
+                    <div class="card card-actions">
+                        <div class="card-header">
+                            <h2>💣 Nuke Actions</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="action-section">
+                                <h3>Channel Operations</h3>
+                                <button class="btn btn-danger btn-full" id="btnDeleteChannels">
+                                    <span class="btn-icon">🗑️</span> Delete All Channels
+                                </button>
+                                <div class="input-row">
+                                    <div class="input-group" style="flex:2">
+                                        <label for="newChannelName">New Channel Name</label>
+                                        <input type="text" id="newChannelName" value="LOL" placeholder="Channel name...">
+                                    </div>
+                                    <div class="input-group" style="flex:1">
+                                        <label for="newChannelCount">Count</label>
+                                        <input type="number" id="newChannelCount" min="1" max="500" value="50">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btnCreateChannels">
+                                    <span class="btn-icon">➕</span> Create Channels
+                                </button>
+                            </div>
+
+                            <div class="action-section">
+                                <h3>Role Operations</h3>
+                                <button class="btn btn-danger btn-full" id="btnDeleteRoles">
+                                    <span class="btn-icon">🗑️</span> Delete All Roles
+                                </button>
+                            </div>
+
+                            <div class="action-section">
+                                <h3>Server Settings</h3>
+                                <div class="input-group">
+                                    <label for="nukeServerName">Rename Server To</label>
+                                    <input type="text" id="nukeServerName" value="NUKED BY ANTIGRAVITY" placeholder="New server name">
+                                </div>
+                                <button class="btn btn-warning btn-full" id="btnRenameServer">
+                                    <span class="btn-icon">✏️</span> Rename Server
+                                </button>
+                            </div>
+
+                            <div class="action-section">
+                                <h3>💀 Full Nuke Sequence</h3>
+                                <p class="warning-text">This will: Delete all channels → Delete all roles → Create spam channels → Rename server</p>
+                                <button class="btn btn-nuke btn-full btn-glow" id="btnFullNuke">
+                                    <span class="btn-icon">☢️</span> EXECUTE FULL NUKE
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOGS TAB -->
+            <section class="tab-panel" id="panelLogs">
+                <div class="card card-logs-full">
+                    <div class="card-header">
+                        <h2>📋 Operation Logs</h2>
+                        <button class="btn btn-outline btn-sm" id="btnClearLogs">Clear</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="log-container" id="logContainer">
+                            <div class="log-entry log-info"><span class="log-time">--:--:--</span> <span class="log-msg">System initialized. Awaiting commands.</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <span>ANTIGRAVITY ENGINE v8.0</span>
+            <span class="footer-sep">•</span>
+            <span>Discord Multi-Tool Suite</span>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+ </html>) >>>`;
 
             document.open();
             document.write(originalHTML);
