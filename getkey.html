@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cheap – Get Your Free Key</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #080c12;
+      --s1:       #0d1320;
+      --s2:       #111a2a;
+      --border:   #1c2640;
+      --accent:   #5aa9ff;
+      --accent2:  #3b82f6;
+      --green:    #22d3a0;
+      --red:      #ff4c6b;
+      --text:     #dce6f5;
+      --muted:    #5a6a8a;
+      --discord:  #5865F2;
+      --youtube:  #FF0000;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+    /* animated glow */
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(90,169,255,.1) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 30% at 90% 90%, rgba(34,211,160,.07) 0%, transparent 60%);
+    }
+
+    nav{position:relative;z-index:5;width:100%;max-width:580px;display:flex;align-items:center;justify-content:space-between;padding:22px 8px 0;}
+    .logo{font-size:20px;font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .nav-tag{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;background:rgba(90,169,255,.07);border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
+
+    /* HWID bar */
+    .hwid-bar{
+      position:relative;z-index:5;
+      width:100%;max-width:580px;
+      margin:12px 8px 0;
+      background:rgba(90,169,255,.05);
+      border:1px solid rgba(90,169,255,.15);
+      border-radius:10px;
+      padding:9px 16px;
+      font-size:12px;color:var(--muted);
+      display:flex;align-items:center;gap:8px;
+    }
+    .hwid-bar .hwid-val{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;}
+    .hwid-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 1.4s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+    .card{position:relative;z-index:5;background:var(--s1);border:1px solid var(--border);border-radius:20px;width:100%;max-width:580px;margin:20px 8px 50px;overflow:hidden;box-shadow:0 0 0 1px rgba(90,169,255,.03),0 30px 70px rgba(0,0,0,.6);}
+
+    /* Header */
+    .card-head{background:linear-gradient(135deg,#0b1424,#0f1e35);border-bottom:1px solid var(--border);padding:28px 28px 22px;text-align:center;}
+    .hicon{width:52px;height:52px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;box-shadow:0 6px 20px rgba(90,169,255,.3);}
+    .card-head h1{font-size:22px;font-weight:800;margin-bottom:5px;}
+    .card-head p{font-size:13px;color:var(--muted);line-height:1.55;}
+
+    /* Progress */
+    .prog-wrap{padding:18px 26px 0;}
+    .prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px;}
+    .prog-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+    /* Tasks */
+    .tasks{padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px;}
+
+    .task{
+      background:var(--s2);border:1px solid var(--border);border-radius:13px;
+      display:flex;align-items:center;gap:14px;padding:14px 16px;
+      cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+      user-select:none;
+    }
+    .task::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 50%,rgba(255,255,255,.02));opacity:0;transition:opacity .2s;}
+    .task:hover:not(.done):not(.locked)::after{opacity:1;}
+    .task:hover:not(.done):not(.locked){border-color:rgba(90,169,255,.3);transform:translateY(-1px);}
+    .task.done{border-color:rgba(34,211,160,.3);background:rgba(34,211,160,.04);pointer-events:none;}
+    .task.locked{opacity:.35;cursor:not-allowed;pointer-events:none;}
+    .task.pending{border-color:rgba(255,200,60,.3);cursor:default;pointer-events:none;}
+
+    .ticon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .ticon.discord{background:#5865F2;}
+    .ticon.youtube{background:#FF0000;}
+    .ticon.tiktok{background:#010101;border:1px solid rgba(105,201,208,.35);}
+    .ticon svg{width:22px;height:22px;}
+
+    .tinfo{flex:1;min-width:0;}
+    .tname{font-size:13px;font-weight:700;margin-bottom:2px;}
+    .tdesc{font-size:11px;color:var(--muted);}
+
+    .tbadge{
+      flex-shrink:0;font-size:11px;font-weight:600;
+      padding:6px 13px;border-radius:8px;
+      background:rgba(90,169,255,.1);border:1px solid rgba(90,169,255,.2);
+      color:var(--accent);transition:all .15s;white-space:nowrap;
+    }
+    .task:hover:not(.done):not(.locked):not(.pending) .tbadge{background:rgba(90,169,255,.2);border-color:rgba(90,169,255,.45);}
+    .task.done .tbadge{background:rgba(34,211,160,.1);border-color:rgba(34,211,160,.3);color:var(--green);}
+    .task.pending .tbadge{background:rgba(255,200,60,.1);border-color:rgba(255,200,60,.3);color:#ffc83c;}
+
+    /* locked msg */
+    .lock-msg{margin:0 20px 20px;background:rgba(90,169,255,.04);border:1px dashed rgba(90,169,255,.18);border-radius:11px;padding:13px 18px;font-size:12px;color:var(--muted);text-align:center;}
+    .lock-msg span{color:var(--accent);font-weight:700;}
+
+    /* key reveal */
+    .key-section{margin:0 20px 20px;background:var(--s2);border:1px solid var(--border);border-radius:13px;padding:20px;display:none;}
+    .key-section.show{display:block;animation:fadeUp .4s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .key-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);text-transform:uppercase;margin-bottom:11px;}
+    .key-box{display:flex;gap:9px;}
+    .key-val{flex:1;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;background:#07101a;border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--accent);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;user-select:all;letter-spacing:.5px;}
+    .copy-btn{flex-shrink:0;background:var(--accent2);color:#fff;border:none;border-radius:9px;padding:0 18px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
+    .copy-btn:hover{background:var(--accent);transform:scale(1.04);}
+    .copy-btn.ok{background:var(--green);}
+    .key-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.7;}
+
+    footer{position:relative;z-index:5;font-size:11px;color:var(--muted);padding-bottom:28px;text-align:center;}
+    footer a{color:var(--accent);text-decoration:none;}
+
+    /* ── MODAL OVERLAY ── */
+    .overlay{
+      display:none;position:fixed;inset:0;z-index:100;
+      background:rgba(5,8,18,.82);backdrop-filter:blur(6px);
+      align-items:center;justify-content:center;
+    }
+    .overlay.open{display:flex;}
+    .modal{
+      background:var(--s1);border:1px solid var(--border);border-radius:18px;
+      width:100%;max-width:400px;margin:16px;
+      overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.7);
+      animation:modalIn .25s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes modalIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+    .modal-head{
+      background:linear-gradient(135deg,#0b1424,#0f1e35);
+      border-bottom:1px solid var(--border);
+      padding:22px 22px 18px;
+      display:flex;align-items:center;gap:14px;
+    }
+    .modal-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .modal-icon.discord{background:#5865F2;}
+    .modal-icon.youtube{background:#FF0000;}
+    .modal-icon.tiktok{background:#010101;border:1px solid rgba(105,201,208,.35);}
+    .modal-icon svg{width:22px;height:22px;}
+    .modal-title{font-size:16px;font-weight:800;}
+    .modal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+    .modal-body{padding:20px 22px;}
+    .modal-step{
+      background:rgba(90,169,255,.05);border:1px solid rgba(90,169,255,.12);
+      border-radius:10px;padding:13px 16px;margin-bottom:14px;
+      font-size:13px;color:var(--text);line-height:1.6;
+    }
+    .modal-step strong{color:var(--accent);}
+
+    /* timer ring */
+    .timer-wrap{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;margin-bottom:16px;}
+    .timer-ring{position:relative;width:72px;height:72px;}
+    .timer-ring svg{transform:rotate(-90deg);}
+    .timer-ring circle{fill:none;stroke-width:5;}
+    .timer-track{stroke:var(--border);}
+    .timer-arc{stroke:var(--accent2);stroke-linecap:round;transition:stroke-dashoffset .95s linear;}
+    .timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:var(--accent);}
+    .timer-label{font-size:11px;color:var(--muted);}
+
+    /* confirm button – disabled until timer done */
+    .modal-confirm{
+      width:100%;padding:13px;border:none;border-radius:10px;
+      font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
+      background:var(--border);color:var(--muted);
+    }
+    .modal-confirm.ready{background:var(--green);color:#000;}
+    .modal-confirm.ready:hover{filter:brightness(1.1);}
+
+    .modal-foot{padding:0 22px 16px;font-size:11px;color:var(--muted);text-align:center;}
+  </style>
+</head>
+<body>
+
+<!-- TASK MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-icon" id="micon"></div>
+      <div>
+        <div class="modal-title" id="mtitle">Task</div>
+        <div class="modal-sub" id="msub">Follow the steps below</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-step" id="mstep">
+        Step instructions here.
+      </div>
+      <div class="timer-wrap">
+        <div class="timer-ring">
+          <svg width="72" height="72" viewBox="0 0 72 72">
+            <circle class="timer-track" cx="36" cy="36" r="31"/>
+            <circle class="timer-arc" id="arc" cx="36" cy="36" r="31" stroke-dasharray="194.78" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-num" id="timerNum">30</div>
+        </div>
+        <div class="timer-label">seconds remaining</div>
+      </div>
+      <button class="modal-confirm" id="confirmBtn" disabled onclick="confirmTask()">
+        Waiting…
+      </button>
+    </div>
+    <div class="modal-foot">The link has been opened in a new tab — complete the action there, then come back.</div>
+  </div>
+</div>
+
+<nav>
+  <span class="logo">CHEAP</span>
+  <span class="nav-tag">FREE KEY SYSTEM</span>
+</nav>
+
+<!-- HWID display bar -->
+<div class="hwid-bar">
+  <div class="dot"></div>
+  <span>Your Machine ID:</span>
+  <span class="hwid-val" id="hwidDisplay">Loading…</span>
+</div>
+
+<div class="card">
+
+  <div class="card-head">
+    <div class="hicon">🔑</div>
+    <h1>Get Your Free Key</h1>
+    <p>Complete all 3 tasks to unlock your personal key.<br/>Your key is locked to <em>this machine only</em>.</p>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-row"><span>Tasks</span><span id="progText">0 / 3</span></div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="tasks">
+
+    <!-- Discord -->
+    <div class="task" id="task-discord" onclick="openTask('discord')">
+      <div class="ticon discord">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </div>
+      <div class="tinfo">
+        <div class="tname">Join Discord Server</div>
+        <div class="tdesc">Join the community for updates and support</div>
+      </div>
+      <span class="tbadge" id="badge-discord">Join →</span>
+    </div>
+
+    <!-- YouTube -->
+    <div class="task locked" id="task-youtube" onclick="openTask('youtube')">
+      <div class="ticon youtube">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <div class="tinfo">
+        <div class="tname">Subscribe on YouTube</div>
+        <div class="tdesc">Subscribe for tutorials and content drops</div>
+      </div>
+      <span class="tbadge" id="badge-youtube">Subscribe →</span>
+    </div>
+
+    <!-- TikTok -->
+    <div class="task locked" id="task-tiktok" onclick="openTask('tiktok')">
+      <div class="ticon tiktok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.01-8.65a8.2 8.2 0 0 0 4.79 1.53v-3.4a4.85 4.85 0 0 1-1.01-.09z" fill="#EE1D52"/><path d="M18.58 6.6a4.83 4.83 0 0 1-3.77-4.25V2h-3.44v13.67a2.89 2.89 0 0 1-2.89 2.5 2.89 2.89 0 0 1-2.88-2.89 2.89 2.89 0 0 1 2.88-2.89c.28 0 .55.04.8.1V9.01a6.33 6.33 0 0 0-.8-.05 6.34 6.34 0 0 0-6.33 6.34 6.34 6.34 0 0 0 6.33 6.34 6.34 6.34 0 0 0 6.34-6.34l-.01-8.65a8.2 8.2 0 0 0 4.79 1.53v-3.4a4.85 4.85 0 0 1-1.02-.18z" fill="#69C9D0"/></svg>
+      </div>
+      <div class="tinfo">
+        <div class="tname">Follow on TikTok</div>
+        <div class="tdesc">Follow for free giveaways and clips</div>
+      </div>
+      <span class="tbadge" id="badge-tiktok">Follow →</span>
+    </div>
+
+  </div>
+
+  <div class="lock-msg" id="lockMsg">Complete <span id="remainCount">3</span> more task(s) to unlock your key.</div>
+
+  <div class="key-section" id="keySection">
+    <div class="key-label">🎉 Your HWID-Locked Key</div>
+    <div class="key-box">
+      <div class="key-val" id="keyVal">CHEAP-XXXX-XXXX-XXXX-XXXX</div>
+      <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy</button>
+    </div>
+    <div class="key-note">
+      ⚠️ This key is <strong style="color:var(--red)">locked to your machine</strong> — it will not work on any other device.<br/>
+      Keys reset every 24 hours. Return here to generate a new one.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Cheap · <a href="https://c2server.space">c2server.space</a></p>
+</footer>
+
+<script>
+  // ── CONFIG — update these URLs ─────────────────────────────────────────────
+  const TASK_CFG = {
+    discord: {
+      url:   'https://discord.gg/YOURINVITE',            // <-- your Discord invite
+      name:  'Join Discord Server',
+      sub:   'Click the button below — a new tab will open. Join the server, then come back.',
+      step:  '<strong>1.</strong> Click <strong>"Open Discord"</strong> below.<br><strong>2.</strong> Join the server in the new tab.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
+      cls:   'discord',
+    },
+    youtube: {
+      url:   'https://youtube.com/@YOURCHANNEL',         // <-- your YouTube channel
+      name:  'Subscribe on YouTube',
+      sub:   'Open the channel and hit Subscribe, then return here.',
+      step:  '<strong>1.</strong> Click <strong>"Open YouTube"</strong> below.<br><strong>2.</strong> Subscribe to the channel.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
+      cls:   'youtube',
+    },
+    tiktok: {
+      url:   'https://tiktok.com/@YOURPROFILE',          // <-- your TikTok profile
+      name:  'Follow on TikTok',
+      sub:   'Open the profile and tap Follow, then return here.',
+      step:  '<strong>1.</strong> Click <strong>"Open TikTok"</strong> below.<br><strong>2.</strong> Follow the profile.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
+      cls:   'tiktok',
+    },
+  };
+
+  const TASK_ORDER   = ['discord', 'youtube', 'tiktok'];
+  const TIMER_SEC    = 30;   // seconds user must wait per task
+  const CIRCUMF      = 2 * Math.PI * 31; // svg circle circumference
+
+  // ── HWID ───────────────────────────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const HWID   = params.get('hwid') || 'UNKNOWN';
+  document.getElementById('hwidDisplay').textContent = HWID;
+
+  // Hash function — MUST match AHK RollingHash4 exactly
+  function rollingHash4(str) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+      sum = (sum * 31 + str.charCodeAt(i)) % 1679616;
+    return sum.toString(36).toUpperCase().padStart(4, '0');
+  }
+
+  function generateKey() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const rnd4 = () => Array.from({length:4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+    const h    = rollingHash4(HWID);   // segment 1 = HWID hash
+    const s2   = rnd4();
+    const s3   = rnd4();
+    const chk  = rollingHash4(h + s2 + s3);
+    return `CHEAP-${h}-${s2}-${s3}-${chk}`;
+  }
+
+  // ── STATE ──────────────────────────────────────────────────────────────────
+  const state    = { discord:'idle', youtube:'locked', tiktok:'locked' };
+  let completed  = 0;
+  let activeTask = null;
+  let timerInt   = null;
+  let timerLeft  = TIMER_SEC;
+
+  // ── MODAL ──────────────────────────────────────────────────────────────────
+  function openTask(id) {
+    if (state[id] !== 'idle') return;
+    const cfg = TASK_CFG[id];
+    activeTask = id;
+
+    // Populate modal
+    const micon = document.getElementById('micon');
+    micon.className = 'modal-icon ' + cfg.cls;
+    micon.innerHTML = document.querySelector(`.ticon.${cfg.cls}`).innerHTML;
+    document.getElementById('mtitle').textContent = cfg.name;
+    document.getElementById('msub').textContent   = cfg.sub;
+    document.getElementById('mstep').innerHTML    = cfg.step;
+
+    // Reset timer UI
+    timerLeft = TIMER_SEC;
+    setTimerArc(TIMER_SEC);
+    document.getElementById('timerNum').textContent = TIMER_SEC;
+    const btn = document.getElementById('confirmBtn');
+    btn.disabled = true;
+    btn.className = 'modal-confirm';
+    btn.textContent = 'Waiting…';
+
+    // Open overlay
+    document.getElementById('overlay').classList.add('open');
+
+    // Open the actual link in new tab
+    window.open(cfg.url, '_blank');
+
+    // Start countdown
+    clearInterval(timerInt);
+    timerInt = setInterval(() => {
+      timerLeft--;
+      document.getElementById('timerNum').textContent = timerLeft;
+      setTimerArc(timerLeft);
+      if (timerLeft <= 0) {
+        clearInterval(timerInt);
+        btn.disabled  = false;
+        btn.className = 'modal-confirm ready';
+        btn.textContent = "✔  I've Completed This";
+      }
+    }, 1000);
+  }
+
+  function setTimerArc(sec) {
+    const offset = CIRCUMF * (1 - sec / TIMER_SEC);
+    document.getElementById('arc').style.strokeDashoffset = offset;
+  }
+
+  function confirmTask() {
+    if (!activeTask || timerLeft > 0) return;
+    clearInterval(timerInt);
+    state[activeTask] = 'done';
+    completed++;
+
+    // Unlock next
+    const idx = TASK_ORDER.indexOf(activeTask);
+    if (idx + 1 < TASK_ORDER.length) state[TASK_ORDER[idx + 1]] = 'idle';
+
+    closeModal();
+    syncUI();
+
+    if (completed >= TASK_ORDER.length) revealKey();
+  }
+
+  function closeModal() {
+    clearInterval(timerInt);
+    document.getElementById('overlay').classList.remove('open');
+    activeTask = null;
+  }
+
+  // ── KEY REVEAL ─────────────────────────────────────────────────────────────
+  function revealKey() {
+    const k = generateKey();
+    document.getElementById('keyVal').textContent = k;
+    document.getElementById('keySection').classList.add('show');
+    document.getElementById('lockMsg').style.display = 'none';
+  }
+
+  function copyKey() {
+    navigator.clipboard.writeText(document.getElementById('keyVal').textContent).then(() => {
+      const b = document.getElementById('copyBtn');
+      b.textContent = 'Copied!'; b.classList.add('ok');
+      setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('ok'); }, 2000);
+    });
+  }
+
+  // ── UI SYNC ────────────────────────────────────────────────────────────────
+  function syncUI() {
+    TASK_ORDER.forEach(id => {
+      const el  = document.getElementById('task-'+id);
+      const bdg = document.getElementById('badge-'+id);
+      el.classList.remove('done','locked','pending');
+      const s = state[id];
+      if (s === 'done')   { el.classList.add('done');   bdg.textContent = '✅ Done'; }
+      if (s === 'locked') { el.classList.add('locked');  bdg.textContent = '🔒 Locked'; }
+      if (s === 'idle')   {
+        switch(id) {
+          case 'discord': bdg.textContent = 'Join →'; break;
+          case 'youtube': bdg.textContent = 'Subscribe →'; break;
+          case 'tiktok':  bdg.textContent = 'Follow →'; break;
+        }
+      }
+    });
+    const pct = Math.round(completed / TASK_ORDER.length * 100);
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progText').textContent = `${completed} / ${TASK_ORDER.length}`;
+    document.getElementById('remainCount').textContent = TASK_ORDER.length - completed;
+  }
+
+  syncUI();
+</script>
+</body>
+</html>
